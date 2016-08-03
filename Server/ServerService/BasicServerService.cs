@@ -3,6 +3,8 @@ using System.IO;
 using System.Linq;
 using Server.Common;
 using Server.Core;
+using ServerService.Dtos;
+using ServerService.Mappers;
 
 namespace ServerService
 {
@@ -62,10 +64,10 @@ namespace ServerService
             using (StreamReader r = new StreamReader(downloadFilePath))
             {
                 string fileContent = r.ReadToEnd();
-                chunks = RabinKarpAlgorithm.Slice(fileContent, ChunkOriginType.CurrentFile).ToList();
+                chunks = RabinKarpAlgorithm.Slice(fileContent).ToList();
             }
 
-            return ChunkDifferentiator.GetDifferenceChunks(chunks, cahceChunks.Select(ChunkMapper.Map).ToList());
+            return ChunkDifferentiator.GetUpdatedChunks(chunks, cahceChunks.Select(CachedChunkDtoMapper.Map).ToList());
         }
     }
 }

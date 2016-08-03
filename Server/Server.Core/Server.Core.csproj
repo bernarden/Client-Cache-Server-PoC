@@ -40,14 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CachedChunkDto.cs" />
     <Compile Include="Chunk.cs" />
     <Compile Include="ChunkDifferentiator.cs" />
-    <Compile Include="ChunkMapper.cs" />
-    <Compile Include="Chunks.cs" />
     <Compile Include="DifferenceChunk.cs" />
-    <Compile Include="DifferenceChunkType.cs" />
-    <Compile Include="FileSystemWatcherManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RabinKarpAlgorithm.cs" />
   </ItemGroup>

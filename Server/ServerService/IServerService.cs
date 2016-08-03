@@ -2,6 +2,7 @@
 using System.IO;
 using System.ServiceModel;
 using Server.Core;
+using ServerService.Dtos;
 
 namespace ServerService
 {

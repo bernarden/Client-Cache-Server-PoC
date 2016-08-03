@@ -27,15 +27,15 @@ namespace Server
                 modifiedString = r.ReadToEnd();
             }
 
-            List<Chunk> chunksFromOriginalFile = RabinKarpAlgorithm.Slice(originalString, ChunkOriginType.CachedFile).ToList();
+            List<Chunk> chunksFromOriginalFile = RabinKarpAlgorithm.Slice(originalString);
 
-            List<Chunk> chunksFromModifiedFile = RabinKarpAlgorithm.Slice(modifiedString, ChunkOriginType.CurrentFile).ToList();
+            List<Chunk> chunksFromModifiedFile = RabinKarpAlgorithm.Slice(modifiedString);
 
             Console.WriteLine($"Chunks in file '{new FileInfo(originalFilePath).Name}'\t: {chunksFromOriginalFile.Count}");
             Console.WriteLine($"Chunks in file '{new FileInfo(modifiedFilePath).Name}'\t: {chunksFromModifiedFile.Count}");
 
 
-            ChunkDifferentiator.GetDifferenceChunks(chunksFromOriginalFile, chunksFromModifiedFile);
+            ChunkDifferentiator.GetUpdatedChunks(chunksFromOriginalFile, chunksFromModifiedFile);
             //StartService();
             Console.ReadLine();
         }
@@ -43,9 +43,6 @@ namespace Server
         private static void StartService()
         {
             Console.WriteLine("Server has been started.");
-
-            FileSystemWatcherManager fileSystemWatcherManager = new FileSystemWatcherManager(CommonConstants.ServerFilesLocation);
-            fileSystemWatcherManager.SetupFileSystemWatcher();
 
             Uri baseAddress = new Uri("http://localhost:8000/BasicServerService/");
             ServiceHost selfHost = new ServiceHost(typeof(BasicServerService), baseAddress);
