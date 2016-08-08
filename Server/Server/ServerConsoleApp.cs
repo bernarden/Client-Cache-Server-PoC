@@ -1,49 +1,45 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.ServiceModel;
-using System.ServiceModel.Description;
-using Server.Common;
-using Server.Core;
-using ServerService;
+using Server.Service;
 
-namespace Server
+namespace Server.App
 {
     static class ServerConsoleApp
     {
         static void Main()
         {
-            StartService();
-            Console.ReadLine();
-        }
-
-        private static void StartService()
-        {
-            Console.WriteLine("Server has been started.");
-
-            Uri baseAddress = new Uri("http://localhost:8000/BasicServerService/");
-            ServiceHost selfHost = new ServiceHost(typeof(BasicServerService), baseAddress);
-
+            ServiceHost host = new ServiceHost(typeof(BasicServerService));
             try
             {
-                selfHost.AddServiceEndpoint(typeof(IServerService), new WSHttpBinding(), "BasicServerService");
-                ServiceMetadataBehavior smb = new ServiceMetadataBehavior { HttpGetEnabled = true };
-                selfHost.Description.Behaviors.Add(smb);
-                selfHost.Open();
-                Console.WriteLine("Server is operational.");
-                Console.WriteLine("Press Enter to shut it down.\n");
-
-                Console.ReadLine();
-            }
-            catch (CommunicationException ce)
-            {
-                Console.WriteLine("An exception occurred: {0}", ce.Message);
-                selfHost.Abort();
+                StartService(host);
+                Console.WriteLine("Press <Enter> to stop the server.");
                 Console.ReadLine();
             }
             finally
             {
-                selfHost.Close();
+                host.Close();
+                Console.WriteLine("WCF has been stopped.");
+            }
+        }
+
+        private static void StartService(ICommunicationObject host)
+        {
+            Console.WriteLine("Server has been started.");
+
+            try
+            {
+                Console.WriteLine("Initializing WCF.");
+                host.Open();
+                Console.WriteLine("WCF is running.");
+            }
+            catch (CommunicationException ce)
+            {
+                Console.WriteLine($"An exception occurred: {ce.Message}");
+            }
+            finally
+            {
+                host.Close();
+                Console.WriteLine("WCF has been stopped.");
             }
         }
     }

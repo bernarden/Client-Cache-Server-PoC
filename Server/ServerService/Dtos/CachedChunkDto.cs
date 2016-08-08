@@ -1,4 +1,4 @@
-﻿namespace ServerService.Dtos
+﻿namespace Server.Service.Dtos
 {
     public class CachedChunkDto
     {
