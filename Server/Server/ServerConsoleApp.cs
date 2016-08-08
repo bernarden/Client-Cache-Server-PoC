@@ -13,30 +13,7 @@ namespace Server
     {
         static void Main()
         {
-            string originalFilePath = Path.Combine(CommonConstants.ServerFilesLocation, "file.txt");
-            string modifiedFilePath = Path.Combine(CommonConstants.ServerFilesLocation, "file - Copy.txt");
-            string originalString;
-            string modifiedString;
-
-            using (StreamReader r = new StreamReader(originalFilePath))
-            {
-                originalString = r.ReadToEnd();
-            }
-            using (StreamReader r = new StreamReader(modifiedFilePath))
-            {
-                modifiedString = r.ReadToEnd();
-            }
-
-            List<Chunk> chunksFromOriginalFile = RabinKarpAlgorithm.Slice(originalString);
-
-            List<Chunk> chunksFromModifiedFile = RabinKarpAlgorithm.Slice(modifiedString);
-
-            Console.WriteLine($"Chunks in file '{new FileInfo(originalFilePath).Name}'\t: {chunksFromOriginalFile.Count}");
-            Console.WriteLine($"Chunks in file '{new FileInfo(modifiedFilePath).Name}'\t: {chunksFromModifiedFile.Count}");
-
-
-            ChunkDifferentiator.GetUpdatedChunks(chunksFromOriginalFile, chunksFromModifiedFile);
-            //StartService();
+            StartService();
             Console.ReadLine();
         }
 
