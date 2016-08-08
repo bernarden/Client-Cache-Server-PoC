@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
-using Server.Core;
 using Server.Service.Dtos;
 
 namespace Server.Service
@@ -34,6 +33,6 @@ namespace Server.Service
         /// Gets the updated chunks.
         /// </summary>
         [OperationContract]
-        IEnumerable<DifferenceChunk> GetUpdatedChunks(string fileName, IEnumerable<CachedChunkDto> cahceChunks);
+        IEnumerable<DifferenceChunkDto> GetUpdatedChunks(string fileName, IEnumerable<CachedChunkDto> cahceChunks);
     }
 }

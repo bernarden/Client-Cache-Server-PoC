@@ -56,7 +56,7 @@ namespace Server.Service
         /// <summary>
         /// Gets the updated chunks.
         /// </summary>
-        public IEnumerable<DifferenceChunk> GetUpdatedChunks(string fileName, IEnumerable<CachedChunkDto> cahceChunks)
+        public IEnumerable<DifferenceChunkDto> GetUpdatedChunks(string fileName, IEnumerable<CachedChunkDto> cahceChunks)
         {
             string downloadFilePath = Path.Combine(CommonConstants.ServerFilesLocation, $"{fileName}");
             List<Chunk> chunks;
@@ -67,7 +67,7 @@ namespace Server.Service
                 chunks = RabinKarpAlgorithm.Slice(fileContent).ToList();
             }
 
-            return ChunkDifferentiator.GetUpdatedChunks(chunks, cahceChunks.Select(CachedChunkDtoMapper.Map).ToList());
+            return ChunkDifferentiator.GetUpdatedChunks(chunks, cahceChunks.Select(CachedChunkDtoMapper.Map).ToList()).Select(DifferenceChunkDtoMapper.Map);
         }
     }
 }
