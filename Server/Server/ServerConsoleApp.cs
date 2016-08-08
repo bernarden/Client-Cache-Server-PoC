@@ -8,39 +8,24 @@ namespace Server.App
     {
         static void Main()
         {
-            ServiceHost host = new ServiceHost(typeof(BasicServerService));
-            try
-            {
-                StartService(host);
-                Console.WriteLine("Press <Enter> to stop the server.");
-                Console.ReadLine();
-            }
-            finally
-            {
-                host.Close();
-                Console.WriteLine("WCF has been stopped.");
-            }
-        }
-
-        private static void StartService(ICommunicationObject host)
-        {
             Console.WriteLine("Server has been started.");
-
+            ServiceHost host = new ServiceHost(typeof(BasicServerService));
             try
             {
                 Console.WriteLine("Initializing WCF.");
                 host.Open();
-                Console.WriteLine("WCF is running.");
-            }
-            catch (CommunicationException ce)
-            {
-                Console.WriteLine($"An exception occurred: {ce.Message}");
-            }
-            finally
-            {
+                Console.WriteLine("WCF has been started.");
+                Console.WriteLine("Press <Enter> to stop the server.");
+                Console.ReadLine();
                 host.Close();
-                Console.WriteLine("WCF has been stopped.");
             }
+            catch (Exception e)
+            {
+                Console.WriteLine($"An exception occurred: {e.Message}");
+                host.Abort();
+                Console.WriteLine("WCF has been aborted.");
+            }
+            Console.ReadLine();
         }
     }
 }
