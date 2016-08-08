@@ -1,7 +1,7 @@
 using Server.Core;
-using ServerService.Dtos;
+using Server.Service.Dtos;
 
-namespace ServerService.Mappers
+namespace Server.Service.Mappers
 {
     public static class CachedChunkDtoMapper
     {

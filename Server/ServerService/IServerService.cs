@@ -2,9 +2,9 @@
 using System.IO;
 using System.ServiceModel;
 using Server.Core;
-using ServerService.Dtos;
+using Server.Service.Dtos;
 
-namespace ServerService
+namespace Server.Service
 {
     /// <summary>
     /// Responsible for providing servers' services

@@ -3,13 +3,13 @@ using System.IO;
 using System.Linq;
 using Server.Common;
 using Server.Core;
-using ServerService.Dtos;
-using ServerService.Mappers;
+using Server.Service.Dtos;
+using Server.Service.Mappers;
 
-namespace ServerService
+namespace Server.Service
 {
     /// <summary>
-    /// Basic implementaiton of server service
+    /// Basic implementation of server service
     /// </summary>
     public class BasicServerService : IServerService
     {
