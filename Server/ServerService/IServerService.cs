@@ -6,7 +6,7 @@ using Server.Service.Dtos;
 namespace Server.Service
 {
     /// <summary>
-    /// Responsible for providing servers' services
+    /// Responsible for providing server's services
     /// </summary>
     [ServiceContract]
     public interface IServerService
