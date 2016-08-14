@@ -1,4 +1,4 @@
-using Server.Core;
+using Common;
 using Server.Service.Dtos;
 
 namespace Server.Service.Mappers

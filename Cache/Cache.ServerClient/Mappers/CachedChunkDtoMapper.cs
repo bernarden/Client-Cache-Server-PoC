@@ -1,5 +1,5 @@
-﻿using Cache.Common;
-using Cache.ServerClient.ServiceReference;
+﻿using Cache.ServerClient.ServiceReference;
+using Common;
 
 namespace Cache.ServerClient.Mappers
 {
