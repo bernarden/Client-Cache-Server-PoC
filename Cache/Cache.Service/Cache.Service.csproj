@@ -34,6 +34,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
@@ -42,6 +44,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Activation" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
@@ -53,9 +56,9 @@
     <Compile Include="WcfServiceManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cache.Common\Cache.Common.csproj">
-      <Project>{FBC75EE2-E44C-47D5-B762-22DD68D35B9E}</Project>
-      <Name>Cache.Common</Name>
+    <ProjectReference Include="..\Cache.ServerClient\Cache.ServerClient.csproj">
+      <Project>{9CA395A4-8E55-4A2D-A588-8875B0270766}</Project>
+      <Name>Cache.ServerClient</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

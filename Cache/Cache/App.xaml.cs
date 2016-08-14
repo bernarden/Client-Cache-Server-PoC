@@ -3,20 +3,20 @@ using Cache.Service;
 using Ninject;
 using Ninject.Modules;
 
-namespace Cache
+namespace Cache.App
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
     public partial class App : Application
     {
-     protected override void OnStartup(StartupEventArgs eventArgs)
+        protected override void OnStartup(StartupEventArgs eventArgs)
         {
             base.OnStartup(eventArgs);
             IocKernel.Initialize(new IocConfiguration());
         }
-
     }
+
     public class IocConfiguration : NinjectModule
     {
         public override void Load()

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
+using System.Threading.Tasks;
 
 namespace Cache.Service
 {
@@ -14,12 +15,12 @@ namespace Cache.Service
         /// Gets the file names.
         /// </summary>
         [OperationContract]
-        IEnumerable<string> GetFileNames();
+        Task<IEnumerable<string>> GetFileNames();
 
         /// <summary>
         /// Downloads the file.
         /// </summary>
         [OperationContract]
-        Stream DownloadFile(string fileName);
+        Task<Stream> DownloadFile(string fileName);
     }
 }

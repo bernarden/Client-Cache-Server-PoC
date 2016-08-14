@@ -1,4 +1,4 @@
-﻿namespace Cache
+﻿namespace Cache.App
 {
     public class ViewModelLocator
     {

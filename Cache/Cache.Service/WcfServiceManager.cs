@@ -1,16 +1,22 @@
 ﻿using System;
 using System.ServiceModel;
 using System.ServiceModel.Description;
+using Cache.ServerClient;
 
 namespace Cache.Service
 {
     /// <summary>
     /// Responsible for managing wcf service
     /// </summary>
-    public class WcfServiceManager : IWcfServiceManager
+    public class WcfServiceManager : IWcfServiceManager, IDisposable
     {
-        private static readonly Uri BaseAddress = new Uri("http://localhost:8000/CacheService");
-        private readonly ServiceHost _selfHost = new ServiceHost(typeof(BasicCacheService), BaseAddress);
+        readonly ServiceHost _selfHost;
+
+        public WcfServiceManager()
+        {
+            var baseAddress = new Uri("http://localhost:808/CacheService");
+            _selfHost = new ServiceHost(new BasicCacheService(new ServerFileClient()), baseAddress);
+        }
 
         /// <summary>
         /// Starts the service.
@@ -49,6 +55,20 @@ namespace Cache.Service
                 _selfHost.Abort();
                 throw;
             }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                StopService();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

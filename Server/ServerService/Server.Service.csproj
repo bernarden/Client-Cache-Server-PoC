@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Dtos\CachedChunkDto.cs" />
     <Compile Include="Dtos\DifferenceChunkDto.cs" />
+    <Compile Include="FileCurrentVersionStatus.cs" />
     <Compile Include="IServerService.cs" />
     <Compile Include="Mappers\CachedChunkDtoMapper.cs" />
     <Compile Include="Mappers\DifferenceChunkDtoMapper.cs" />

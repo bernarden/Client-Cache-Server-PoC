@@ -250,11 +250,12 @@
   </wsp:Policy>
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
-      <xsd:import schemaLocation="http://localhost:8000/ServerService?xsd=xsd0" namespace="http://tempuri.org/" />
-      <xsd:import schemaLocation="http://localhost:8000/ServerService?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import schemaLocation="http://localhost:8000/ServerService?xsd=xsd2" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
-      <xsd:import schemaLocation="http://localhost:8000/ServerService?xsd=xsd3" namespace="http://schemas.microsoft.com/Message" />
-      <xsd:import schemaLocation="http://localhost:8000/ServerService?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/Server.Service.Dtos" />
+      <xsd:import schemaLocation="http://localhost:808/ServerService?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:808/ServerService?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:808/ServerService?xsd=xsd2" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://localhost:808/ServerService?xsd=xsd3" namespace="http://schemas.microsoft.com/Message" />
+      <xsd:import schemaLocation="http://localhost:808/ServerService?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/Server.Service" />
+      <xsd:import schemaLocation="http://localhost:808/ServerService?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/Server.Service.Dtos" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IServerService_GetFileNames_InputMessage">
@@ -349,9 +350,9 @@
   </wsdl:binding>
   <wsdl:service name="BasicServerService">
     <wsdl:port name="WSHttpBinding_IServerService" binding="tns:WSHttpBinding_IServerService">
-      <soap12:address location="http://localhost:8000/ServerService" />
+      <soap12:address location="http://localhost:808/ServerService" />
       <wsa10:EndpointReference>
-        <wsa10:Address>http://localhost:8000/ServerService</wsa10:Address>
+        <wsa10:Address>http://localhost:808/ServerService</wsa10:Address>
         <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
           <Upn>BERNARDEN\Bernarden</Upn>
         </Identity>
