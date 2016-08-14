@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Chunk.cs" />
+    <Compile Include="RabinKarpAlgorithm.cs" />
     <Compile Include="CommonConstants.cs" />
     <Compile Include="CommonFunctionality.cs" />
     <Compile Include="StringExtensions.cs" />

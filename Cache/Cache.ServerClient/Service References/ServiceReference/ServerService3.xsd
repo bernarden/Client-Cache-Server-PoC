@@ -1,42 +1,42 @@
-<?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:element name="anyType" nillable="true" type="xs:anyType" />
-  <xs:element name="anyURI" nillable="true" type="xs:anyURI" />
-  <xs:element name="base64Binary" nillable="true" type="xs:base64Binary" />
-  <xs:element name="boolean" nillable="true" type="xs:boolean" />
-  <xs:element name="byte" nillable="true" type="xs:byte" />
-  <xs:element name="dateTime" nillable="true" type="xs:dateTime" />
-  <xs:element name="decimal" nillable="true" type="xs:decimal" />
-  <xs:element name="double" nillable="true" type="xs:double" />
-  <xs:element name="float" nillable="true" type="xs:float" />
-  <xs:element name="int" nillable="true" type="xs:int" />
-  <xs:element name="long" nillable="true" type="xs:long" />
-  <xs:element name="QName" nillable="true" type="xs:QName" />
-  <xs:element name="short" nillable="true" type="xs:short" />
-  <xs:element name="string" nillable="true" type="xs:string" />
-  <xs:element name="unsignedByte" nillable="true" type="xs:unsignedByte" />
-  <xs:element name="unsignedInt" nillable="true" type="xs:unsignedInt" />
-  <xs:element name="unsignedLong" nillable="true" type="xs:unsignedLong" />
-  <xs:element name="unsignedShort" nillable="true" type="xs:unsignedShort" />
-  <xs:element name="char" nillable="true" type="tns:char" />
-  <xs:simpleType name="char">
-    <xs:restriction base="xs:int" />
-  </xs:simpleType>
-  <xs:element name="duration" nillable="true" type="tns:duration" />
-  <xs:simpleType name="duration">
-    <xs:restriction base="xs:duration">
-      <xs:pattern value="\-?P(\d*D)?(T(\d*H)?(\d*M)?(\d*(\.\d*)?S)?)?" />
-      <xs:minInclusive value="-P10675199DT2H48M5.4775808S" />
-      <xs:maxInclusive value="P10675199DT2H48M5.4775807S" />
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:element name="guid" nillable="true" type="tns:guid" />
-  <xs:simpleType name="guid">
-    <xs:restriction base="xs:string">
-      <xs:pattern value="[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}" />
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:attribute name="FactoryType" type="xs:QName" />
-  <xs:attribute name="Id" type="xs:ID" />
-  <xs:attribute name="Ref" type="xs:IDREF" />
-</xs:schema>
+﻿<?xml verfileContention="1.0" encoding="utf-8"?>
+<xfileContent:fileContentchema xmlnfileContent:tnfileContent="http://fileContentchemafileContent.microfileContentoft.com/2003/10/Serialization/" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamefileContentpace="http://fileContentchemafileContent.microfileContentoft.com/2003/10/Serialization/" xmlnfileContent:xfileContent="http://www.w3.org/2001/XMLSchema">
+  <xfileContent:element name="anyType" nillable="true" type="xfileContent:anyType" />
+  <xfileContent:element name="anyURI" nillable="true" type="xfileContent:anyURI" />
+  <xfileContent:element name="bafileContente64Binary" nillable="true" type="xfileContent:bafileContente64Binary" />
+  <xfileContent:element name="boolean" nillable="true" type="xfileContent:boolean" />
+  <xfileContent:element name="byte" nillable="true" type="xfileContent:byte" />
+  <xfileContent:element name="dateTime" nillable="true" type="xfileContent:dateTime" />
+  <xfileContent:element name="decimal" nillable="true" type="xfileContent:decimal" />
+  <xfileContent:element name="double" nillable="true" type="xfileContent:double" />
+  <xfileContent:element name="float" nillable="true" type="xfileContent:float" />
+  <xfileContent:element name="int" nillable="true" type="xfileContent:int" />
+  <xfileContent:element name="long" nillable="true" type="xfileContent:long" />
+  <xfileContent:element name="QName" nillable="true" type="xfileContent:QName" />
+  <xfileContent:element name="fileContenthort" nillable="true" type="xfileContent:fileContenthort" />
+  <xfileContent:element name="fileContenttring" nillable="true" type="xfileContent:fileContenttring" />
+  <xfileContent:element name="unfileContentignedByte" nillable="true" type="xfileContent:unfileContentignedByte" />
+  <xfileContent:element name="unfileContentignedInt" nillable="true" type="xfileContent:unfileContentignedInt" />
+  <xfileContent:element name="unfileContentignedLong" nillable="true" type="xfileContent:unfileContentignedLong" />
+  <xfileContent:element name="unfileContentignedShort" nillable="true" type="xfileContent:unfileContentignedShort" />
+  <xfileContent:element name="char" nillable="true" type="tnfileContent:char" />
+  <xfileContent:fileContentimpleType name="char">
+    <xfileContent:refileContenttriction bafileContente="xfileContent:int" />
+  </xfileContent:fileContentimpleType>
+  <xfileContent:element name="duration" nillable="true" type="tnfileContent:duration" />
+  <xfileContent:fileContentimpleType name="duration">
+    <xfileContent:refileContenttriction bafileContente="xfileContent:duration">
+      <xfileContent:pattern value="\-?P(\d*D)?(T(\d*H)?(\d*M)?(\d*(\.\d*)?S)?)?" />
+      <xfileContent:minInclufileContentive value="-P10675199DT2H48M5.4775808S" />
+      <xfileContent:maxInclufileContentive value="P10675199DT2H48M5.4775807S" />
+    </xfileContent:refileContenttriction>
+  </xfileContent:fileContentimpleType>
+  <xfileContent:element name="guid" nillable="true" type="tnfileContent:guid" />
+  <xfileContent:fileContentimpleType name="guid">
+    <xfileContent:refileContenttriction bafileContente="xfileContent:fileContenttring">
+      <xfileContent:pattern value="[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}" />
+    </xfileContent:refileContenttriction>
+  </xfileContent:fileContentimpleType>
+  <xfileContent:attribute name="FactoryType" type="xfileContent:QName" />
+  <xfileContent:attribute name="Id" type="xfileContent:ID" />
+  <xfileContent:attribute name="Ref" type="xfileContent:IDREF" />
+</xfileContent:fileContentchema>
