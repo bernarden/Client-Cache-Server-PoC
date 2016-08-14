@@ -9,7 +9,7 @@ using Server.Service.Mappers;
 namespace Server.Service
 {
     /// <summary>
-    /// Basic implementation of server service
+    /// Basic implementation of server's service
     /// </summary>
     public class BasicServerService : IServerService
     {
@@ -39,18 +39,22 @@ namespace Server.Service
         /// <summary>
         /// Determines whether cache version of the file is up to date.
         /// </summary>
-        public bool IsCurrentVersionOfFile(string fileName, string hashOfCachedFile)
+        public FileCurrentVersionStatus IsCurrentVersionOfFile(string fileName, string hashOfCachedFile)
         {
             string downloadFilePath = Path.Combine(CommonConstants.ServerFilesLocation, $"{fileName}");
+            if (!File.Exists(downloadFilePath))
+            {
+                return FileCurrentVersionStatus.Removed;
+            }
             using (StreamReader r = new StreamReader(downloadFilePath))
             {
                 string fileContent = r.ReadToEnd();
-                if (fileContent.CalculateSha256Hash().Equals(hashOfCachedFile))
+                if (fileContent.CalculateSha256Hash().ToLower().Equals(hashOfCachedFile.ToLower()))
                 {
-                    return true;
+                    return FileCurrentVersionStatus.UpToDate;
                 }
             }
-            return false;
+            return FileCurrentVersionStatus.Modified;
         }
 
         /// <summary>

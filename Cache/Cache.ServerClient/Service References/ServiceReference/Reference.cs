@@ -8,10 +8,24 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Cache.ServerClient.ServerServiceReferences {
+namespace Cache.ServerClient.ServiceReference {
     using System.Runtime.Serialization;
     using System;
     
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="FileCurrentVersionStatus", Namespace="http://schemas.datacontract.org/2004/07/Server.Service")]
+    public enum FileCurrentVersionStatus : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        UpToDate = 0,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Modified = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Removed = 2,
+    }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
@@ -152,7 +166,7 @@ namespace Cache.ServerClient.ServerServiceReferences {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServerServiceReferences.IServerService")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReference.IServerService")]
     public interface IServerService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServerService/GetFileNames", ReplyAction="http://tempuri.org/IServerService/GetFileNamesResponse")]
@@ -168,25 +182,25 @@ namespace Cache.ServerClient.ServerServiceReferences {
         System.Threading.Tasks.Task<System.IO.Stream> DownloadFileAsync(string fileName);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServerService/IsCurrentVersionOfFile", ReplyAction="http://tempuri.org/IServerService/IsCurrentVersionOfFileResponse")]
-        bool IsCurrentVersionOfFile(string fileName, string hashOfCachedFile);
+        Cache.ServerClient.ServiceReference.FileCurrentVersionStatus IsCurrentVersionOfFile(string fileName, string hashOfCachedFile);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServerService/IsCurrentVersionOfFile", ReplyAction="http://tempuri.org/IServerService/IsCurrentVersionOfFileResponse")]
-        System.Threading.Tasks.Task<bool> IsCurrentVersionOfFileAsync(string fileName, string hashOfCachedFile);
+        System.Threading.Tasks.Task<Cache.ServerClient.ServiceReference.FileCurrentVersionStatus> IsCurrentVersionOfFileAsync(string fileName, string hashOfCachedFile);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServerService/GetUpdatedChunks", ReplyAction="http://tempuri.org/IServerService/GetUpdatedChunksResponse")]
-        Cache.ServerClient.ServerServiceReferences.DifferenceChunkDto[] GetUpdatedChunks(string fileName, Cache.ServerClient.ServerServiceReferences.CachedChunkDto[] cahceChunks);
+        Cache.ServerClient.ServiceReference.DifferenceChunkDto[] GetUpdatedChunks(string fileName, Cache.ServerClient.ServiceReference.CachedChunkDto[] cahceChunks);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServerService/GetUpdatedChunks", ReplyAction="http://tempuri.org/IServerService/GetUpdatedChunksResponse")]
-        System.Threading.Tasks.Task<Cache.ServerClient.ServerServiceReferences.DifferenceChunkDto[]> GetUpdatedChunksAsync(string fileName, Cache.ServerClient.ServerServiceReferences.CachedChunkDto[] cahceChunks);
+        System.Threading.Tasks.Task<Cache.ServerClient.ServiceReference.DifferenceChunkDto[]> GetUpdatedChunksAsync(string fileName, Cache.ServerClient.ServiceReference.CachedChunkDto[] cahceChunks);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IServerServiceChannel : Cache.ServerClient.ServerServiceReferences.IServerService, System.ServiceModel.IClientChannel {
+    public interface IServerServiceChannel : Cache.ServerClient.ServiceReference.IServerService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class ServerServiceClient : System.ServiceModel.ClientBase<Cache.ServerClient.ServerServiceReferences.IServerService>, Cache.ServerClient.ServerServiceReferences.IServerService {
+    public partial class ServerServiceClient : System.ServiceModel.ClientBase<Cache.ServerClient.ServiceReference.IServerService>, Cache.ServerClient.ServiceReference.IServerService {
         
         public ServerServiceClient() {
         }
@@ -223,19 +237,19 @@ namespace Cache.ServerClient.ServerServiceReferences {
             return base.Channel.DownloadFileAsync(fileName);
         }
         
-        public bool IsCurrentVersionOfFile(string fileName, string hashOfCachedFile) {
+        public Cache.ServerClient.ServiceReference.FileCurrentVersionStatus IsCurrentVersionOfFile(string fileName, string hashOfCachedFile) {
             return base.Channel.IsCurrentVersionOfFile(fileName, hashOfCachedFile);
         }
         
-        public System.Threading.Tasks.Task<bool> IsCurrentVersionOfFileAsync(string fileName, string hashOfCachedFile) {
+        public System.Threading.Tasks.Task<Cache.ServerClient.ServiceReference.FileCurrentVersionStatus> IsCurrentVersionOfFileAsync(string fileName, string hashOfCachedFile) {
             return base.Channel.IsCurrentVersionOfFileAsync(fileName, hashOfCachedFile);
         }
         
-        public Cache.ServerClient.ServerServiceReferences.DifferenceChunkDto[] GetUpdatedChunks(string fileName, Cache.ServerClient.ServerServiceReferences.CachedChunkDto[] cahceChunks) {
+        public Cache.ServerClient.ServiceReference.DifferenceChunkDto[] GetUpdatedChunks(string fileName, Cache.ServerClient.ServiceReference.CachedChunkDto[] cahceChunks) {
             return base.Channel.GetUpdatedChunks(fileName, cahceChunks);
         }
         
-        public System.Threading.Tasks.Task<Cache.ServerClient.ServerServiceReferences.DifferenceChunkDto[]> GetUpdatedChunksAsync(string fileName, Cache.ServerClient.ServerServiceReferences.CachedChunkDto[] cahceChunks) {
+        public System.Threading.Tasks.Task<Cache.ServerClient.ServiceReference.DifferenceChunkDto[]> GetUpdatedChunksAsync(string fileName, Cache.ServerClient.ServiceReference.CachedChunkDto[] cahceChunks) {
             return base.Channel.GetUpdatedChunksAsync(fileName, cahceChunks);
         }
     }

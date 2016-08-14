@@ -1,7 +1,6 @@
 ﻿using System.Windows;
-using Cache.Service;
 
-namespace Cache
+namespace Cache.App
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

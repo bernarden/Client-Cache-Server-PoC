@@ -27,7 +27,7 @@ namespace Server.Service
         /// Determines whether cache version of the file is up to date.
         /// </summary>
         [OperationContract]
-        bool IsCurrentVersionOfFile(string fileName, string hashOfCachedFile);
+        FileCurrentVersionStatus IsCurrentVersionOfFile(string fileName, string hashOfCachedFile);
 
         /// <summary>
         /// Gets the updated chunks.

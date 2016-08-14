@@ -1,6 +1,6 @@
 ﻿using Cache.Service;
 
-namespace Cache
+namespace Cache.App
 {
     public class MainWindowViewModel
     {
