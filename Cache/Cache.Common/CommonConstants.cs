@@ -2,6 +2,9 @@
 
 namespace Cache.Common
 {
+    /// <summary>
+    /// Common Constants 
+    /// </summary>
     public static class CommonConstants
     {
         public static readonly string ServerFilesLocation = AppDomain.CurrentDomain.BaseDirectory + @"ServerFiles";

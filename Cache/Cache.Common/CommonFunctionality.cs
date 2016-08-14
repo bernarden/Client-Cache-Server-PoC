@@ -3,7 +3,7 @@
 namespace Cache.Common
 {
     /// <summary>
-    /// Common Functionality
+    /// Common functionality
     /// </summary>
     public static class CommonFunctionality
     {

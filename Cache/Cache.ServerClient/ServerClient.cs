@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Cache.Common;
+using Cache.ServerClient.Mappers;
 using Cache.ServerClient.ServiceReference;
 
 namespace Cache.ServerClient
@@ -47,34 +50,58 @@ namespace Cache.ServerClient
 
                     if (fileCurrentVersionStatus == FileCurrentVersionStatus.Modified)
                     {
-                        // TODO Split file into chunks, get hashes and send them off to the server to evaluate. 
-
+                        return await UpdateCachedFile(fileName, fileContent, serverServiceClient, cachedFileLocation);
                     }
                 }
-                
+
                 if (fileCurrentVersionStatus == FileCurrentVersionStatus.UpToDate)
                 {
-                    return CommonFunctionality.GetMemoryStreamOfTheFile(fileName);
+                    byte[] byteArray = Encoding.UTF8.GetBytes(fileContent);
+                    return new MemoryStream(byteArray);
                 }
-                else if (fileCurrentVersionStatus == FileCurrentVersionStatus.Removed)
-                {
-                    throw new FileNotFoundException();
-                }
-            }
-            else
-            {
-                using (ServerServiceClient serverServiceClient = new ServerServiceClient())
-                {
-                    Stream downloadedFile = await serverServiceClient.DownloadFileAsync(fileName);
-                    SaveToFile(downloadedFile, cachedFileLocation);
-                    // TODO Update UI. This file was saved.
-                    return downloadedFile;
-                }
+
+                throw new FileNotFoundException();
             }
 
+            // File hasn't been cached before.
+            using (ServerServiceClient serverServiceClient = new ServerServiceClient())
+            {
+                Stream downloadedFile = await serverServiceClient.DownloadFileAsync(fileName);
+                SaveToNewFile(downloadedFile, cachedFileLocation);
+                // TODO Update UI. This file was saved.
+                return downloadedFile;
+            }
         }
 
-        private void SaveToFile(Stream downloadedFile, string filePath)
+        private async Task<Stream> UpdateCachedFile(string fileName, string fileContent, ServerServiceClient serverServiceClient,
+            string cachedFileLocation)
+        {
+            List<Chunk> chunks = RabinKarpAlgorithm.Slice(fileContent);
+            DifferenceChunkDto[] differenceChunkDtos = await serverServiceClient.GetUpdatedChunksAsync(fileName, chunks.Select(CachedChunkDtoMapper.Map).ToArray());
+            string newFileContent = ConstructContentOfTheUpdateFile(differenceChunkDtos, chunks);
+            File.WriteAllText(cachedFileLocation, newFileContent);
+            byte[] byteArray = Encoding.UTF8.GetBytes(newFileContent);
+            return new MemoryStream(byteArray);
+        }
+
+        private static string ConstructContentOfTheUpdateFile(DifferenceChunkDto[] differenceChunkDtos, List<Chunk> chunks)
+        {
+            StringBuilder builder = new StringBuilder();
+            foreach (DifferenceChunkDto chunkDto in differenceChunkDtos.OrderBy(x => x.CurentFileChunkNumber))
+            {
+                if (string.IsNullOrEmpty(chunkDto.ChunkInformation) && chunkDto.CachedFileChunkNumber > 0)
+                {
+                    builder.Append(chunkDto.ChunkInformation);
+                }
+                else
+                {
+                    builder.Append(chunks.First(x => x.FileChunkNumber == chunkDto.CachedFileChunkNumber).ChunkInformation);
+                }
+            }
+            return builder.ToString();
+        }
+
+        private void SaveToNewFile(Stream downloadedFile, string filePath)
         {
             using (var fileStream = File.Create(filePath))
             {
@@ -91,5 +118,4 @@ namespace Cache.ServerClient
             }
         }
     }
-
 }
