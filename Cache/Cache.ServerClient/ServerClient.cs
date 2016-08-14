@@ -3,9 +3,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Cache.Common;
 using Cache.ServerClient.Mappers;
 using Cache.ServerClient.ServiceReference;
+using Common;
 
 namespace Cache.ServerClient
 {
