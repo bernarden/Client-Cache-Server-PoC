@@ -3,13 +3,127 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Cache"
+        xmlns:local="clr-namespace:Cache.App"
+        xmlns:micro="Cali"
         mc:Ignorable="d"
-        Title="Cache" Height="350" Width="525"
-        
+        Title="Cache" Height="600" Width="800" MinHeight="480" MinWidth="640" ResizeMode="CanResize" 
+        d:DataContext="{d:DesignInstance local:MainWindowDesignTimeViewModel, IsDesignTimeCreatable=True}"
         DataContext="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}">
 
+    <Window.Resources >
+        <!-- Files -->
+        <DataTemplate x:Key="FileTemplate" DataType="local:FileViewModel">
+            <DockPanel MinWidth="25">
+                <Image Height="25" Width="25" DockPanel.Dock="Right" Source="Resources/tick.png" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding IsCached, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <TextBlock Margin="0,0,5,0" DockPanel.Dock="Left" Foreground="Gray" Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap"/>
+            </DockPanel>
+        </DataTemplate>
 
-    <Grid>
+        <!-- Logs -->
+        <DataTemplate x:Key="LogMessageItemTemplate" DataType="local:LogMessageViewModel">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Foreground="Gray" Text="{Binding LogTime, StringFormat=s}" Margin="0,0,5,0" TextWrapping="Wrap"/>
+                <TextBlock Grid.Column="1" Foreground="Green" DockPanel.Dock="Left" Text="{Binding Message}" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap"/>
+            </Grid>
+        </DataTemplate>
+
+        <!-- Resets ControlTemplate to get read of standard scrollbar + other styling-->
+        <Style x:Key="ListViewStyle" TargetType="ListView">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <ItemsPresenter/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Focusable" Value="false"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="IsHitTestVisible" Value="False" />
+        </Style>
+
+        <!-- Sets up ScrollViewers to correct width -->
+        <Style x:Key="ScrollViewerStyle" TargetType="ScrollViewer">
+            <Setter Property="VerticalScrollBarVisibility" Value="Hidden" />
+            <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
+        </Style>
+
+        <!-- Style for Clear Cache button -->
+        <Style x:Key="ClearCacheButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Black"/>
+            <Setter Property="Foreground" Value="LightGray"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="LightGray" BorderThickness="0,2,0,0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Red"/>
+                    <Setter Property="BorderBrush" Value="LightGray"/>
+                </Trigger>
+                <Trigger Property="Button.IsPressed" Value="True">
+                    <Setter Property="Background" Value="DarkRed" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="Black">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="240"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="1.6*" MinWidth="400"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <GridSplitter Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" Foreground="LightGray"   Width="2" HorizontalAlignment="Stretch" />
+
+        <StackPanel Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Orientation="Vertical">
+            <Separator Foreground="LightGray" Height="2" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+        </StackPanel>
+
+        <DockPanel Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" Margin="5,0,5,0">
+            <TextBlock DockPanel.Dock="Left" Foreground="LightGray" Text="File Names"/>
+            <TextBlock DockPanel.Dock="Right" Foreground="LightGray" HorizontalAlignment="Right" Text="Cached" />
+        </DockPanel>
+
+        <TextBlock Grid.Column="2" Grid.Row="0" Foreground="LightGray" HorizontalAlignment="Center" Text="Log Messages"></TextBlock>
+
+        <!-- List of files available to cache. Tick shows that file is already cached. -->
+        <ScrollViewer Grid.Column="0" Grid.Row="2" Style="{StaticResource ScrollViewerStyle}" Margin="0,0,5,0">
+            <ListView Style="{StaticResource ListViewStyle}"
+                      ItemsSource="{Binding Files}"
+                      ItemTemplate="{StaticResource FileTemplate}" />
+        </ScrollViewer>
+
+        <!-- List of log messages -->
+        <ScrollViewer Grid.Column="2" Grid.Row="2" Grid.RowSpan="2" Name="ScrollViewer"  Style="{StaticResource ScrollViewerStyle}" Margin="5,0,0,0">
+            <ListView Style="{StaticResource ListViewStyle}" Name="Content"
+                      ItemsSource="{Binding LogMessages}"
+                      ItemTemplate="{StaticResource LogMessageItemTemplate}"/>
+        </ScrollViewer>
+
+        <Button Grid.Column="0" Grid.Row="3" Content="Clear Cache" Style="{StaticResource ClearCacheButtonStyle}" Click="ClearCacheButtonOnClick"/>
+
     </Grid>
 </Window>
