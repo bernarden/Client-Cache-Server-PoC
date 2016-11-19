@@ -36,17 +36,12 @@ namespace Cache.WPF.Service
 
         private static ServiceHost InitializeService()
         {
-            MainWindowViewModel mainWindowViewModel = IocKernel.Get<MainWindowViewModel>();
 
             var baseAddress = new Uri("http://localhost:808/CacheService");
-            BasicCacheService basicCacheService = new BasicCacheService();
-            basicCacheService.CustomEvent += mainWindowViewModel.UpdateListOfFiles;
-
-            // basicCacheService. += mainWindowViewModel.
+ 
 
 
-
-            return new ServiceHost(basicCacheService, baseAddress);
+            return new ServiceHost(typeof(BasicCacheService), baseAddress);
         }
 
         /// <summary>

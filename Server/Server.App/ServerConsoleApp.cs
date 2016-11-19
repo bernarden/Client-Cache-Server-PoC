@@ -8,7 +8,9 @@ namespace Server.App
     {
         static void Main()
         {
+            
             Console.WriteLine("Server has been started.");
+
             ServiceHost host = new ServiceHost(typeof(BasicServerService));
             try
             {

@@ -10,7 +10,6 @@ namespace Cache.WPF.ViewModels
         public MainWindowViewModel( FileManager fileManager)
         {
             _fileManager = fileManager;
-           // WcfServiceManager.StartService();
         }
 
         public List<FileViewModel> Files { get; set; }
