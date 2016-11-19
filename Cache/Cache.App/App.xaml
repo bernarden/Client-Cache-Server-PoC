@@ -1,12 +1,12 @@
-﻿<Application x:Class="Cache.App.App"
+﻿<Application x:Class="Cache.WPF.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Cache"
-             xmlns:app="clr-namespace:Cache.App"
-             StartupUri="MainWindow.xaml">
+             xmlns:helpers="clr-namespace:Cache.WPF.Helpers"
+             StartupUri="Views/MainWindow.xaml">
+    
     <Application.Resources>
-        <app:ViewModelLocator x:Key="ViewModelLocator"/>
-        <app:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <helpers:ViewModelLocator x:Key="ViewModelLocator"/>
+        <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Application.Resources>
     
 </Application>

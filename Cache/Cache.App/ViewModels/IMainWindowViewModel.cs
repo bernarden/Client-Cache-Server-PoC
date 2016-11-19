@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Cache.App
+namespace Cache.WPF.ViewModels
 {
     public interface IMainWindowViewModel
     {

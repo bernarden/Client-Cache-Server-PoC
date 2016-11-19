@@ -1,46 +1,58 @@
 ﻿using System;
 using System.ServiceModel;
 using System.ServiceModel.Description;
-using Cache.ServerClient;
+using Cache.WPF.ViewModels;
 
-namespace Cache.Service
+namespace Cache.WPF.Service
 {
     /// <summary>
     /// Responsible for managing wcf service
     /// </summary>
-    public class WcfServiceManager : IWcfServiceManager, IDisposable
+    public static class WcfServiceManager
     {
-        readonly ServiceHost _selfHost;
-
-        public WcfServiceManager()
-        {
-            var baseAddress = new Uri("http://localhost:808/CacheService");
-            _selfHost = new ServiceHost(new BasicCacheService(new ServerFileClient()), baseAddress);
-        }
+        private static ServiceHost _selfHost;
 
         /// <summary>
         /// Starts the service.
         /// </summary>
-        public void StartService()
+        public static void StartService()
         {
             try
             {
+                if (_selfHost == null)
+                {
+                    _selfHost = InitializeService();
+                }
                 _selfHost.AddServiceEndpoint(typeof(ICacheService), new WSHttpBinding(), "");
                 _selfHost.Description.Behaviors.Add(new ServiceMetadataBehavior { HttpGetEnabled = true });
-
                 _selfHost.Open();
             }
             catch (CommunicationException)
             {
-                _selfHost.Abort();
+                _selfHost?.Abort();
                 throw;
             }
+        }
+
+        private static ServiceHost InitializeService()
+        {
+            MainWindowViewModel mainWindowViewModel = IocKernel.Get<MainWindowViewModel>();
+
+            var baseAddress = new Uri("http://localhost:808/CacheService");
+            BasicCacheService basicCacheService = new BasicCacheService();
+            basicCacheService.CustomEvent += mainWindowViewModel.UpdateListOfFiles;
+
+            // basicCacheService. += mainWindowViewModel.
+
+
+
+            return new ServiceHost(basicCacheService, baseAddress);
         }
 
         /// <summary>
         /// Stops the service.
         /// </summary>
-        public void StopService()
+        public static void StopService()
         {
             try
             {
@@ -55,20 +67,6 @@ namespace Cache.Service
                 _selfHost.Abort();
                 throw;
             }
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                StopService();
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
     }
 }

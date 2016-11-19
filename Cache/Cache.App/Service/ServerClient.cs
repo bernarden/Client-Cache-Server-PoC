@@ -3,33 +3,68 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Cache.ServerClient.Mappers;
-using Cache.ServerClient.ServiceReference;
+using Cache.WPF.ServerReference;
+using Cache.WPF.Service.Mappers;
+using Cache.WPF.ViewModels;
 using Common;
 
-namespace Cache.ServerClient
+namespace Cache.WPF.Service
 {
     /// <summary>
     /// Responsible for communicating with server.
     /// </summary>
     public class ServerFileClient
     {
+        private readonly FileManager _fileManager;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ServerFileClient"/> class.
+        /// </summary>
+        public ServerFileClient(FileManager fileManager)
+        {
+            _fileManager = fileManager;
+        }
+
         /// <summary>
         /// Gets the file names.
         /// </summary>
         public async Task<IEnumerable<string>> GetFileNames()
         {
             string[] fileNames;
-
             using (ServerServiceClient serverServiceClient = new ServerServiceClient())
             {
                 fileNames = await serverServiceClient.GetFileNamesAsync();
             }
 
-            // TODO Update UI list of files;
-            // TODO UI should delete downloaded files if they are no longer on server.
+            UpdateFilesOnUi(fileNames);
 
             return fileNames;
+        }
+
+        private void UpdateFilesOnUi(string[] newFileNames)
+        {
+            MainWindowViewModel mainWindowViewModel = IocKernel.Get<MainWindowViewModel>();
+
+            foreach (string fileName in newFileNames)
+            {
+                if (!mainWindowViewModel.Files.Any(x => x.Name.Equals(fileName)))
+                {
+                    mainWindowViewModel.Files.Add(new FileViewModel { Name = fileName, IsCached = false });
+                }
+            }
+
+            for (int i = mainWindowViewModel.Files.Count - 1; i >= 0; i--)
+            {
+                FileViewModel file = mainWindowViewModel.Files[i];
+                if (!newFileNames.Any(x => x.Equals(file.Name)))
+                {
+                    mainWindowViewModel.Files.Remove(file);
+                    if (file.IsCached)
+                    {
+                        _fileManager.DeleteFile(file.Name);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -68,18 +103,20 @@ namespace Cache.ServerClient
             {
                 Stream downloadedFile = await serverServiceClient.DownloadFileAsync(fileName);
                 SaveToNewFile(downloadedFile, cachedFileLocation);
-                // TODO Update UI. This file was saved.
+
+                MainWindowViewModel mainWindowViewModel = IocKernel.Get<MainWindowViewModel>();
+                mainWindowViewModel.Files.First(x => x.Name.Equals(fileName)).IsCached = true;
+
                 return downloadedFile;
             }
         }
 
-        private async Task<Stream> UpdateCachedFile(string fileName, string fileContent, ServerServiceClient serverServiceClient,
-            string cachedFileLocation)
+        private async Task<Stream> UpdateCachedFile(string fileName, string fileContent, ServerServiceClient serverServiceClient, string cachedFileLocation)
         {
             List<Chunk> chunks = RabinKarpAlgorithm.Slice(fileContent);
             DifferenceChunkDto[] differenceChunkDtos = await serverServiceClient.GetUpdatedChunksAsync(fileName, chunks.Select(CachedChunkDtoMapper.Map).ToArray());
             string newFileContent = ConstructContentOfTheUpdateFile(differenceChunkDtos, chunks);
-            File.WriteAllText(cachedFileLocation, newFileContent);
+            System.IO.File.WriteAllText(cachedFileLocation, newFileContent);
             byte[] byteArray = Encoding.UTF8.GetBytes(newFileContent);
             return new MemoryStream(byteArray);
         }
@@ -103,7 +140,7 @@ namespace Cache.ServerClient
 
         private void SaveToNewFile(Stream downloadedFile, string filePath)
         {
-            using (var fileStream = File.Create(filePath))
+            using (var fileStream = System.IO.File.Create(filePath))
             {
                 downloadedFile.Seek(0, SeekOrigin.Begin);
                 downloadedFile.CopyTo(fileStream);

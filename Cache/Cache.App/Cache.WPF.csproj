@@ -7,8 +7,8 @@
     <ProjectGuid>{1948F88A-F678-4A70-94B9-99D877C62F3D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cache.App</RootNamespace>
-    <AssemblyName>Cache.App</AssemblyName>
+    <RootNamespace>Cache.WPF</RootNamespace>
+    <AssemblyName>Cache.WPF</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -37,6 +37,9 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Cache.WPF.App</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
@@ -44,6 +47,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -58,31 +63,41 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Helpers\ViewModelLocator.cs" />
+    <Compile Include="Service References\ServerReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service\BasicCacheService.cs" />
+    <Compile Include="Service\FileManager.cs" />
+    <Compile Include="Service\ICacheService.cs" />
+    <Compile Include="Service\IWcfServiceManager.cs" />
+    <Compile Include="Service\Mappers\CachedChunkDtoMapper.cs" />
+    <Compile Include="Service\ServerClient.cs" />
+    <Compile Include="Service\WcfServiceManager.cs" />
+    <Compile Include="ViewModels\FileViewModel.cs" />
+    <Compile Include="ViewModels\IMainWindowViewModel.cs" />
+    <Compile Include="ViewModels\LogMessageViewModel.cs" />
+    <Compile Include="ViewModels\DesignTimeMainWindowViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BooleanToVisibilityConverter.cs" />
-    <Compile Include="FileViewModel.cs" />
-    <Compile Include="IMainWindowViewModel.cs" />
-    <Compile Include="LogMessageViewModel.cs" />
-    <Compile Include="MainWindowDesignTimeViewModel.cs" />
-    <Compile Include="ViewModelLocator.cs" />
-    <Page Include="MainWindow.xaml">
+    <Compile Include="Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -101,11 +116,37 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\Cache.ServerClient.Service_References.ServiceReference.DifferenceChunkDto.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Service References\ServerReference\BasicServerService.wsdl" />
+    <None Include="Service References\ServerReference\Cache.WPF.ServerReference.DifferenceChunkDto.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServerReference\Cache.WPF.ServerReference.FileCurrentVersionStatus.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServerReference\ServerService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServerReference\ServerService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServerReference\ServerService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServerReference\ServerService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServerReference\ServerService4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServerReference\ServerService5.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -113,17 +154,34 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cache.ServerClient\Cache.ServerClient.csproj">
-      <Project>{9CA395A4-8E55-4A2D-A588-8875B0270766}</Project>
-      <Name>Cache.ServerClient</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Cache.Service\Cache.Service.csproj">
-      <Project>{7F19577B-280B-4D81-95D6-510A7585B867}</Project>
-      <Name>Cache.Service</Name>
-    </ProjectReference>
+    <Resource Include="Resources\tick.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\tick.png" />
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\ServerReference\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ServerReference\ServerService.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ServerReference\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ServerReference\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ServerReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Common.csproj">
+      <Project>{1FD7AD3D-FEDC-4E0C-94D5-3F16C2C213B2}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

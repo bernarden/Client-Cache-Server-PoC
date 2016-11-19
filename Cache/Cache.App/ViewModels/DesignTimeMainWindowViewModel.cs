@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Cache.App
+namespace Cache.WPF.ViewModels
 {
-    public class MainWindowDesignTimeViewModel : IMainWindowViewModel
+    public class DesignTimeMainWindowViewModel : IMainWindowViewModel
     {
         public List<FileViewModel> Files => new List<FileViewModel>
         {

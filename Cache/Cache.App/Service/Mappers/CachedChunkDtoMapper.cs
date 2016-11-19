@@ -1,7 +1,7 @@
-﻿using Cache.ServerClient.ServiceReference;
+﻿using Cache.WPF.ServerReference;
 using Common;
 
-namespace Cache.ServerClient.Mappers
+namespace Cache.WPF.Service.Mappers
 {
     public static class CachedChunkDtoMapper
     {
