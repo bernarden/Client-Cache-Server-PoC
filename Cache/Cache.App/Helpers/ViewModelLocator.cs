@@ -1,4 +1,6 @@
-﻿namespace Cache.App
+﻿using Cache.WPF.ViewModels;
+
+namespace Cache.WPF.Helpers
 {
     public class ViewModelLocator
     {

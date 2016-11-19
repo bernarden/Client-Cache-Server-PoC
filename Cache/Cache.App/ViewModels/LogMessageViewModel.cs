@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cache.App
+namespace Cache.WPF.ViewModels
 {
     public class LogMessageViewModel
     {

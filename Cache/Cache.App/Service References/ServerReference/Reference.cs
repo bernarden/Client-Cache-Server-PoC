@@ -8,37 +8,38 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System;
-using System.Runtime.Serialization;
-
-namespace Cache.ServerClient.Service_References.ServiceReference {
+namespace Cache.WPF.ServerReference {
+    using System.Runtime.Serialization;
+    using System;
+    
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [DataContract(Name="FileCurrentVersionStatus", Namespace="http://schemas.datacontract.org/2004/07/Server.Service")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="FileCurrentVersionStatus", Namespace="http://schemas.datacontract.org/2004/07/Server.Service")]
     public enum FileCurrentVersionStatus : int {
         
-        [EnumMember()]
+        [System.Runtime.Serialization.EnumMemberAttribute()]
         UpToDate = 0,
         
-        [EnumMember()]
+        [System.Runtime.Serialization.EnumMemberAttribute()]
         Modified = 1,
         
-        [EnumMember()]
+        [System.Runtime.Serialization.EnumMemberAttribute()]
         Removed = 2,
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [DataContract(Name="CachedChunkDto", Namespace="http://schemas.datacontract.org/2004/07/Server.Service.Dtos")]
-    [Serializable()]
+    [System.Runtime.Serialization.DataContractAttribute(Name="CachedChunkDto", Namespace="http://schemas.datacontract.org/2004/07/Server.Service.Dtos")]
+    [System.SerializableAttribute()]
     public partial class CachedChunkDto : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
-        [NonSerialized()]
+        [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
-        [OptionalField()]
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private long CachedFileChunkLocationField;
         
-        [OptionalField()]
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string ChunkHashField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
@@ -51,7 +52,7 @@ namespace Cache.ServerClient.Service_References.ServiceReference {
             }
         }
         
-        [DataMember()]
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public long CachedFileChunkLocation {
             get {
                 return this.CachedFileChunkLocationField;
@@ -64,7 +65,7 @@ namespace Cache.ServerClient.Service_References.ServiceReference {
             }
         }
         
-        [DataMember()]
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public string ChunkHash {
             get {
                 return this.ChunkHashField;
@@ -89,20 +90,20 @@ namespace Cache.ServerClient.Service_References.ServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [DataContract(Name="DifferenceChunkDto", Namespace="http://schemas.datacontract.org/2004/07/Server.Service.Dtos")]
-    [Serializable()]
+    [System.Runtime.Serialization.DataContractAttribute(Name="DifferenceChunkDto", Namespace="http://schemas.datacontract.org/2004/07/Server.Service.Dtos")]
+    [System.SerializableAttribute()]
     public partial class DifferenceChunkDto : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
-        [NonSerialized()]
+        [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
-        [OptionalField()]
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private long CachedFileChunkNumberField;
         
-        [OptionalField()]
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string ChunkInformationField;
         
-        [OptionalField()]
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private long CurentFileChunkNumberField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
@@ -115,7 +116,7 @@ namespace Cache.ServerClient.Service_References.ServiceReference {
             }
         }
         
-        [DataMember()]
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public long CachedFileChunkNumber {
             get {
                 return this.CachedFileChunkNumberField;
@@ -128,7 +129,7 @@ namespace Cache.ServerClient.Service_References.ServiceReference {
             }
         }
         
-        [DataMember()]
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public string ChunkInformation {
             get {
                 return this.ChunkInformationField;
@@ -141,7 +142,7 @@ namespace Cache.ServerClient.Service_References.ServiceReference {
             }
         }
         
-        [DataMember()]
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public long CurentFileChunkNumber {
             get {
                 return this.CurentFileChunkNumberField;
@@ -165,7 +166,7 @@ namespace Cache.ServerClient.Service_References.ServiceReference {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReference.IServerService")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServerReference.IServerService")]
     public interface IServerService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServerService/GetFileNames", ReplyAction="http://tempuri.org/IServerService/GetFileNamesResponse")]
@@ -181,25 +182,25 @@ namespace Cache.ServerClient.Service_References.ServiceReference {
         System.Threading.Tasks.Task<System.IO.Stream> DownloadFileAsync(string fileName);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServerService/IsCurrentVersionOfFile", ReplyAction="http://tempuri.org/IServerService/IsCurrentVersionOfFileResponse")]
-        FileCurrentVersionStatus IsCurrentVersionOfFile(string fileName, string hashOfCachedFile);
+        Cache.WPF.ServerReference.FileCurrentVersionStatus IsCurrentVersionOfFile(string fileName, string hashOfCachedFile);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServerService/IsCurrentVersionOfFile", ReplyAction="http://tempuri.org/IServerService/IsCurrentVersionOfFileResponse")]
-        System.Threading.Tasks.Task<FileCurrentVersionStatus> IsCurrentVersionOfFileAsync(string fileName, string hashOfCachedFile);
+        System.Threading.Tasks.Task<Cache.WPF.ServerReference.FileCurrentVersionStatus> IsCurrentVersionOfFileAsync(string fileName, string hashOfCachedFile);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServerService/GetUpdatedChunks", ReplyAction="http://tempuri.org/IServerService/GetUpdatedChunksResponse")]
-        DifferenceChunkDto[] GetUpdatedChunks(string fileName, CachedChunkDto[] cahceChunks);
+        Cache.WPF.ServerReference.DifferenceChunkDto[] GetUpdatedChunks(string fileName, Cache.WPF.ServerReference.CachedChunkDto[] cahceChunks);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServerService/GetUpdatedChunks", ReplyAction="http://tempuri.org/IServerService/GetUpdatedChunksResponse")]
-        System.Threading.Tasks.Task<DifferenceChunkDto[]> GetUpdatedChunksAsync(string fileName, CachedChunkDto[] cahceChunks);
+        System.Threading.Tasks.Task<Cache.WPF.ServerReference.DifferenceChunkDto[]> GetUpdatedChunksAsync(string fileName, Cache.WPF.ServerReference.CachedChunkDto[] cahceChunks);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IServerServiceChannel : IServerService, System.ServiceModel.IClientChannel {
+    public interface IServerServiceChannel : Cache.WPF.ServerReference.IServerService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class ServerServiceClient : System.ServiceModel.ClientBase<IServerService>, IServerService {
+    public partial class ServerServiceClient : System.ServiceModel.ClientBase<Cache.WPF.ServerReference.IServerService>, Cache.WPF.ServerReference.IServerService {
         
         public ServerServiceClient() {
         }
@@ -236,19 +237,19 @@ namespace Cache.ServerClient.Service_References.ServiceReference {
             return base.Channel.DownloadFileAsync(fileName);
         }
         
-        public FileCurrentVersionStatus IsCurrentVersionOfFile(string fileName, string hashOfCachedFile) {
+        public Cache.WPF.ServerReference.FileCurrentVersionStatus IsCurrentVersionOfFile(string fileName, string hashOfCachedFile) {
             return base.Channel.IsCurrentVersionOfFile(fileName, hashOfCachedFile);
         }
         
-        public System.Threading.Tasks.Task<FileCurrentVersionStatus> IsCurrentVersionOfFileAsync(string fileName, string hashOfCachedFile) {
+        public System.Threading.Tasks.Task<Cache.WPF.ServerReference.FileCurrentVersionStatus> IsCurrentVersionOfFileAsync(string fileName, string hashOfCachedFile) {
             return base.Channel.IsCurrentVersionOfFileAsync(fileName, hashOfCachedFile);
         }
         
-        public DifferenceChunkDto[] GetUpdatedChunks(string fileName, CachedChunkDto[] cahceChunks) {
+        public Cache.WPF.ServerReference.DifferenceChunkDto[] GetUpdatedChunks(string fileName, Cache.WPF.ServerReference.CachedChunkDto[] cahceChunks) {
             return base.Channel.GetUpdatedChunks(fileName, cahceChunks);
         }
         
-        public System.Threading.Tasks.Task<DifferenceChunkDto[]> GetUpdatedChunksAsync(string fileName, CachedChunkDto[] cahceChunks) {
+        public System.Threading.Tasks.Task<Cache.WPF.ServerReference.DifferenceChunkDto[]> GetUpdatedChunksAsync(string fileName, Cache.WPF.ServerReference.CachedChunkDto[] cahceChunks) {
             return base.Channel.GetUpdatedChunksAsync(fileName, cahceChunks);
         }
     }

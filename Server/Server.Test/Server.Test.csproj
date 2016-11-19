@@ -31,9 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Common">
-      <HintPath>..\..\Common\Common\bin\Release\Common.dll</HintPath>
-    </Reference>
     <Reference Include="FluentAssertions, Version=4.12.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentAssertions.4.12.0\lib\net45\FluentAssertions.dll</HintPath>
       <Private>True</Private>
@@ -64,6 +61,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\Common.csproj">
+      <Project>{1FD7AD3D-FEDC-4E0C-94D5-3F16C2C213B2}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Server.Core\Server.Core.csproj">
       <Project>{cb3f0770-2f62-4900-b02e-7207ddf12151}</Project>
       <Name>Server.Core</Name>

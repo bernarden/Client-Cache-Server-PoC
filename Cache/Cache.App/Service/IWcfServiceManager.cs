@@ -1,4 +1,4 @@
-﻿namespace Cache.Service
+﻿namespace Cache.WPF.Service
 {
     public interface IWcfServiceManager
     {

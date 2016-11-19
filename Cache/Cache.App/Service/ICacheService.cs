@@ -3,7 +3,7 @@ using System.IO;
 using System.ServiceModel;
 using System.Threading.Tasks;
 
-namespace Cache.Service
+namespace Cache.WPF.Service
 {
     /// <summary>
     /// Defines cache's services

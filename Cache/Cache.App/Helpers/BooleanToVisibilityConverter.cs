@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace Cache.App
+namespace Cache.WPF.Helpers
 {
     public class BooleanToVisibilityConverter : IValueConverter
     {

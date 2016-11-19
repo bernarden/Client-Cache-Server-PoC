@@ -1,9 +1,10 @@
 ﻿using System.Windows;
-using Cache.Service;
+using Cache.WPF.Service;
+using Cache.WPF.ViewModels;
 using Ninject;
 using Ninject.Modules;
 
-namespace Cache.App
+namespace Cache.WPF
 {
     /// <summary>
     /// Interaction logic for App.xaml
@@ -21,8 +22,9 @@ namespace Cache.App
     {
         public override void Load()
         {
-            Bind<IWcfServiceManager>().To<WcfServiceManager>().InSingletonScope();
-            Bind<MainWindowViewModel>().ToSelf().InTransientScope();
+          //  Bind<IWcfServiceManager>().To<WcfServiceManager>().InSingletonScope();
+            Bind<FileManager>().To<FileManager>().InSingletonScope();
+            Bind<MainWindowViewModel>().ToSelf().InSingletonScope();
         }
     }
 
