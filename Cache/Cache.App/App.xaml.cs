@@ -15,6 +15,7 @@ namespace Cache.WPF
         {
             base.OnStartup(eventArgs);
             IocKernel.Initialize(new IocConfiguration());
+            WcfServiceManager.StartService();
         }
     }
 
@@ -22,7 +23,7 @@ namespace Cache.WPF
     {
         public override void Load()
         {
-          //  Bind<IWcfServiceManager>().To<WcfServiceManager>().InSingletonScope();
+            //  Bind<IWcfServiceManager>().To<WcfServiceManager>().InSingletonScope();
             Bind<FileManager>().To<FileManager>().InSingletonScope();
             Bind<MainWindowViewModel>().ToSelf().InSingletonScope();
         }

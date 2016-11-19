@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.App", "Server\Server.App.csproj", "{1A5308F6-F5CE-46CB-9CD9-C93C7361F196}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.App", "Server.App\Server.App.csproj", "{1A5308F6-F5CE-46CB-9CD9-C93C7361F196}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.Service", "ServerService\Server.Service.csproj", "{6205FF1F-5327-4307-80B1-2081A6146E77}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.Service", "Server.Service\Server.Service.csproj", "{6205FF1F-5327-4307-80B1-2081A6146E77}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.Test", "Server.Test\Server.Test.csproj", "{F324136B-5FDB-44AF-9C1D-3336E2B403FE}"
 EndProject

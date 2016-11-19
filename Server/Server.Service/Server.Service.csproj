@@ -36,9 +36,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Common">
-      <HintPath>..\..\Common\Common\bin\Release\Common.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -59,6 +56,10 @@
     <Compile Include="BasicServerService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\Common.csproj">
+      <Project>{1FD7AD3D-FEDC-4E0C-94D5-3F16C2C213B2}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Server.Core\Server.Core.csproj">
       <Project>{CB3F0770-2F62-4900-B02E-7207DDF12151}</Project>
       <Name>Server.Core</Name>
