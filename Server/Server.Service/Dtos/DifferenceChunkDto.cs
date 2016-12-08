@@ -6,7 +6,7 @@ namespace Server.Service.Dtos
     public class DifferenceChunkDto
     {
         [DataMember]
-        public string ChunkInformation { get; set; }
+        public byte[] ChunkInformation { get; set; }
 
         [DataMember]
         public long CurentFileChunkNumber { get; set; }

@@ -12,13 +12,12 @@ namespace Common
         /// <summary>
         /// Calculates the sha256 hash.
         /// </summary>
-        public static string CalculateSha256Hash(this string value)
+        public static string CalculateSha256Hash(this byte[] value)
         {
             using (SHA256 hash = SHA256.Create())
             {
-                return string.Join("", hash
-                  .ComputeHash(Encoding.UTF8.GetBytes(value))
-                  .Select(item => item.ToString("x2")));
+                byte[] computeHash = hash.ComputeHash(value);
+                return string.Join("", computeHash.Select(item => item.ToString("x2")));
             }
         }
     }

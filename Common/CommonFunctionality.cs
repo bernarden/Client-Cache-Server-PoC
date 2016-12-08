@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 
 namespace Common
@@ -34,6 +35,15 @@ namespace Common
         public static bool DoesFileExist(string filePath)
         {
             return File.Exists(filePath);
+        }
+
+
+
+        public static T[] SubArray<T>(this T[] data, int index, int length)
+        {
+            T[] result = new T[length];
+            Array.Copy(data, index, result, 0, length);
+            return result;
         }
     }
 }

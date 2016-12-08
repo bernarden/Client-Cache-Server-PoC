@@ -2,11 +2,11 @@
 {
     public class DifferenceChunk
     {
-        public readonly string ChunkInformation;
+        public readonly byte[] ChunkInformation;
         public readonly long CurentFileChunkNumber;
         public readonly long CachedFileChunkNumber;
 
-        public DifferenceChunk(string chunkInformation, long curentFileChunkNumber, long cachedFileChunkNumber)
+        public DifferenceChunk(byte[] chunkInformation, long curentFileChunkNumber, long cachedFileChunkNumber)
         {
             ChunkInformation = chunkInformation;
             CurentFileChunkNumber = curentFileChunkNumber;

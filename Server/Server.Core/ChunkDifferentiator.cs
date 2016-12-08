@@ -14,7 +14,7 @@ namespace Server.Core
             {
                 Chunk cachedChunk = chunksFromCachedFile.FirstOrDefault(x => x.ChunkHash.Equals(currentChunk.ChunkHash));
                 var differenceChunk = cachedChunk != null ?
-                    new DifferenceChunk(string.Empty, currentChunk.FileChunkNumber, cachedChunk.FileChunkNumber) :
+                    new DifferenceChunk(new byte[0], currentChunk.FileChunkNumber, cachedChunk.FileChunkNumber) :
                     new DifferenceChunk(currentChunk.ChunkInformation, currentChunk.FileChunkNumber, -1);
                 differenceChunks.Add(differenceChunk);
             }
