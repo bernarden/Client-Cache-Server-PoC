@@ -53,6 +53,7 @@ namespace Client.ViewModels
             set
             {
                 _selectedFile = value;
+                // ReSharper disable once ExplicitCallerInfoArgument
                 NotifyPropertyChanged(nameof(DownloadOpenFileButtonText));
                 NotifyPropertyChanged(nameof(SelectedFile));
             }

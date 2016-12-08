@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 
 namespace Common
 {
@@ -38,12 +37,21 @@ namespace Common
         }
 
 
-
         public static T[] SubArray<T>(this T[] data, int index, int length)
         {
             T[] result = new T[length];
             Array.Copy(data, index, result, 0, length);
             return result;
+        }
+
+
+        public static byte[] ReadFully(Stream input)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                input.CopyTo(ms);
+                return ms.ToArray();
+            }
         }
     }
 }
