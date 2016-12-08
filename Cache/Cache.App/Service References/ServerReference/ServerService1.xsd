@@ -22,7 +22,7 @@
   <xs:complexType name="DifferenceChunkDto">
     <xs:sequence>
       <xs:element minOccurs="0" name="CachedFileChunkNumber" type="xs:long" />
-      <xs:element minOccurs="0" name="ChunkInformation" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ChunkInformation" nillable="true" type="xs:base64Binary" />
       <xs:element minOccurs="0" name="CurentFileChunkNumber" type="xs:long" />
     </xs:sequence>
   </xs:complexType>

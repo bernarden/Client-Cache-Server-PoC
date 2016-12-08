@@ -101,7 +101,7 @@ namespace Cache.WPF.ServerReference {
         private long CachedFileChunkNumberField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string ChunkInformationField;
+        private byte[] ChunkInformationField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private long CurentFileChunkNumberField;
@@ -130,7 +130,7 @@ namespace Cache.WPF.ServerReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string ChunkInformation {
+        public byte[] ChunkInformation {
             get {
                 return this.ChunkInformationField;
             }
