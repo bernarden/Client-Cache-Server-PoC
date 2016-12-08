@@ -78,21 +78,21 @@ namespace Cache.WPF.Service
 
             if (fileWasCached)
             {
-                string fileContent = GetFileContent(cachedFileLocation);
+                byte[] allCachedBytes = System.IO.File.ReadAllBytes(cachedFileLocation);
                 FileCurrentVersionStatus fileCurrentVersionStatus;
                 using (ServerServiceClient serverServiceClient = new ServerServiceClient())
                 {
-                    fileCurrentVersionStatus = await serverServiceClient.IsCurrentVersionOfFileAsync(fileName, fileContent.CalculateSha256Hash());
+                    fileCurrentVersionStatus = await serverServiceClient.IsCurrentVersionOfFileAsync(fileName, allCachedBytes.CalculateSha256Hash());
 
                     if (fileCurrentVersionStatus == FileCurrentVersionStatus.Modified)
                     {
-                        return await UpdateCachedFile(fileName, fileContent, serverServiceClient, cachedFileLocation);
+                        return await UpdateCachedFile(fileName, allCachedBytes, serverServiceClient, cachedFileLocation);
                     }
                 }
 
                 if (fileCurrentVersionStatus == FileCurrentVersionStatus.UpToDate)
                 {
-                   return new MemoryStream(Encoding.UTF8.GetBytes(fileContent));
+                    return new MemoryStream(allCachedBytes);
                 }
 
                 throw new FileNotFoundException();
@@ -111,7 +111,7 @@ namespace Cache.WPF.Service
             }
         }
 
-        private async Task<Stream> UpdateCachedFile(string fileName, string fileContent, ServerServiceClient serverServiceClient, string cachedFileLocation)
+        private async Task<Stream> UpdateCachedFile(string fileName, byte[] fileContent, ServerServiceClient serverServiceClient, string cachedFileLocation)
         {
             List<Chunk> chunks = RabinKarpAlgorithm.Slice(fileContent);
             DifferenceChunkDto[] differenceChunkDtos = await serverServiceClient.GetUpdatedChunksAsync(fileName, chunks.Select(CachedChunkDtoMapper.Map).ToArray());
@@ -126,7 +126,7 @@ namespace Cache.WPF.Service
             StringBuilder builder = new StringBuilder();
             foreach (DifferenceChunkDto chunkDto in differenceChunkDtos.OrderBy(x => x.CurentFileChunkNumber))
             {
-                if (string.IsNullOrEmpty(chunkDto.ChunkInformation) && chunkDto.CachedFileChunkNumber > 0)
+                if ((chunkDto.ChunkInformation == null || chunkDto.ChunkInformation.Length == 0) && chunkDto.CachedFileChunkNumber > 0)
                 {
                     builder.Append(chunkDto.ChunkInformation);
                 }
@@ -146,15 +146,6 @@ namespace Cache.WPF.Service
             using (var file = System.IO.File.Create(filePath))
             {
                 downloadedFile.CopyTo(file);
-            }
-        }
-
-        private string GetFileContent(string cachedFileLocation)
-        {
-
-            using (StreamReader streamReader = new StreamReader(cachedFileLocation))
-            {
-                return streamReader.ReadToEnd();
             }
         }
     }
