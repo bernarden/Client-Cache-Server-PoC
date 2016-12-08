@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModels="clr-namespace:Client.ViewModels"
         mc:Ignorable="d"
-        Title="Cache" Height="500" MinHeight="480" Width="400" MinWidth="400" ResizeMode="CanResize"
+        Title="Client" Height="500" MinHeight="480" Width="400" MinWidth="400" ResizeMode="CanResize"
         d:DataContext="{d:DesignInstance viewModels:DesignTimeMainWindowViewModel, IsDesignTimeCreatable=True}"
         DataContext="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}" >
 
@@ -139,8 +139,8 @@
                       SelectedItem="{Binding SelectedFile, Mode=TwoWay}"/>
         </ScrollViewer>
 
-        <Button Grid.Column="0" Grid.Row="2" Content="Clear downloads" Style="{StaticResource ClearDownloadsButtonStyle}" Click="ClearDownloadsButton_OnClick" IsEnabled="{Binding OperationInProgress}"/>
-        <Button Grid.Column="1" Grid.Row="2" Content="Refresh list" Style="{StaticResource RefreshListButtonStyle}" Click="RefreshListButton_OnClick" IsEnabled="{Binding OperationInProgress}"/>
-        <Button Grid.Column="2" Grid.Row="2" Content="{Binding DownloadOpenFileButtonText}" Style="{StaticResource DownloadOpenFileButtonStyle}" Click="DownloadOpenFileButton_OnClick" IsEnabled="{Binding OperationInProgress}"/>
+        <Button Grid.Column="0" Grid.Row="2" Content="Clear downloads" Style="{StaticResource ClearDownloadsButtonStyle}" Click="ClearDownloadsButton_OnClick" IsEnabled="{Binding OperationInProgress, Converter={StaticResource InverseBooleanConverter}}"/>
+        <Button Grid.Column="1" Grid.Row="2" Content="Refresh list" Style="{StaticResource RefreshListButtonStyle}" Click="RefreshListButton_OnClick" IsEnabled="{Binding OperationInProgress, Converter={StaticResource InverseBooleanConverter}}"/>
+        <Button Grid.Column="2" Grid.Row="2" Content="{Binding DownloadOpenFileButtonText}" Style="{StaticResource DownloadOpenFileButtonStyle}" Click="DownloadOpenFileButton_OnClick" IsEnabled="{Binding OperationInProgress, Converter={StaticResource InverseBooleanConverter}}"/>
     </Grid>
 </Window>

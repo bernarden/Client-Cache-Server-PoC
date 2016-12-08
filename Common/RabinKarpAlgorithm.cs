@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace Common
 {
@@ -15,7 +17,7 @@ namespace Common
         /// <summary>
         /// Slices the given file content.
         /// </summary>
-        public static List<Chunk> Slice(string fileContent)
+        public static List<Chunk> Slice(byte[] fileContent)
         {
             List<Chunk> chunks = new List<Chunk>();
             ulong pow = 1;
@@ -33,19 +35,27 @@ namespace Common
                 {
                     if (j + 1 - lastIndex >= 2048)
                     {
-                        chunks.Add(new Chunk(fileContent.Substring(lastIndex, j + 1 - lastIndex), chunks.Count));
+                        chunks.Add(new Chunk(fileContent.SubArray(lastIndex, j + 1 - lastIndex), chunks.Count));
                         lastIndex = j + 1;
                     }
                 }
                 else if (j + 1 - lastIndex >= 65536)
                 {
-                    chunks.Add(new Chunk(fileContent.Substring(lastIndex, j + 1 - lastIndex), chunks.Count));
+                    chunks.Add(new Chunk(fileContent.SubArray(lastIndex, j + 1 - lastIndex), chunks.Count));
                     lastIndex = j + 1;
                 }
             }
             if (lastIndex < fileContent.Length - 1)
-                chunks.Add(new Chunk(fileContent.Substring(lastIndex), chunks.Count));
+                chunks.Add(new Chunk(fileContent.SubArray(lastIndex, fileContent.Length - 1- lastIndex), chunks.Count));
             return chunks;
         }
+
+        public static T[] SubArray<T>(this T[] data, int index, int length)
+        {
+            T[] result = new T[length];
+            Array.Copy(data, index, result, 0, length);
+            return result;
+        }
     }
+
 }

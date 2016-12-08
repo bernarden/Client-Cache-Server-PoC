@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using Cache.WPF.ServerReference;
@@ -91,8 +92,7 @@ namespace Cache.WPF.Service
 
                 if (fileCurrentVersionStatus == FileCurrentVersionStatus.UpToDate)
                 {
-                    byte[] byteArray = Encoding.UTF8.GetBytes(fileContent);
-                    return new MemoryStream(byteArray);
+                   return new MemoryStream(Encoding.UTF8.GetBytes(fileContent));
                 }
 
                 throw new FileNotFoundException();
@@ -107,7 +107,7 @@ namespace Cache.WPF.Service
                 MainWindowViewModel mainWindowViewModel = IocKernel.Get<MainWindowViewModel>();
                 mainWindowViewModel.Files.First(x => x.Name.Equals(fileName)).IsCached = true;
 
-                return downloadedFile;
+                return CommonFunctionality.GetMemoryStreamOfTheFile(cachedFileLocation);
             }
         }
 
@@ -140,15 +140,18 @@ namespace Cache.WPF.Service
 
         private void SaveToNewFile(Stream downloadedFile, string filePath)
         {
-            using (var fileStream = System.IO.File.Create(filePath))
+            if (!Directory.Exists(CommonConstants.CacheFilesLocation))
+                Directory.CreateDirectory(CommonConstants.CacheFilesLocation);
+
+            using (var file = System.IO.File.Create(filePath))
             {
-                downloadedFile.Seek(0, SeekOrigin.Begin);
-                downloadedFile.CopyTo(fileStream);
+                downloadedFile.CopyTo(file);
             }
         }
 
         private string GetFileContent(string cachedFileLocation)
         {
+
             using (StreamReader streamReader = new StreamReader(cachedFileLocation))
             {
                 return streamReader.ReadToEnd();

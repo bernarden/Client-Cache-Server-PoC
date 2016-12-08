@@ -68,6 +68,7 @@
     </Compile>
     <Compile Include="Helpers\BooleanToVisibilityConverter.cs" />
     <Compile Include="Helpers\ViewModelLocator.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Service References\ServerReference\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

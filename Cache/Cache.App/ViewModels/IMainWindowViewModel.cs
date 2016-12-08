@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Cache.WPF.ViewModels
 {
     public interface IMainWindowViewModel
     {
-        List<FileViewModel> Files { get; }
-        List<LogMessageViewModel> LogMessages { get; }
+        ObservableCollection<FileViewModel> Files { get; }
+        ObservableCollection<LogMessageViewModel> LogMessages { get; }
         void ClearCache();
     }
 }

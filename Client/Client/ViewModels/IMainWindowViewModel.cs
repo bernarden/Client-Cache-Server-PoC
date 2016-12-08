@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Client.ViewModels
 {
     public interface IMainWindowViewModel
     {
-        List<FileViewModel> Files { get; }
+        ObservableCollection<FileViewModel> Files { get; }
         FileViewModel SelectedFile { get; set; }
-        bool OperationInProgress { get; set; }
         string DownloadOpenFileButtonText { get; }
+        bool OperationInProgress { get; set; }
         void DownloadOpenFile();
         void RefreshList();
         void ClearDownloads();

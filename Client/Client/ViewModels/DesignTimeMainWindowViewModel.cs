@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Client.ViewModels
 {
     public class DesignTimeMainWindowViewModel : IMainWindowViewModel
     {
-        public List<FileViewModel> Files => new List<FileViewModel>
+        public ObservableCollection<FileViewModel> Files => new ObservableCollection<FileViewModel>
         {
             new FileViewModel{Name = "ljkNSDVpun:ASOUnv;OZMSCiomSE:IUcm;mcSMNEPUVNPUDvniwegbvzdthjfyuikloNSRv",IsCached = true},
             new FileViewModel {Name = "name3", IsCached = false},

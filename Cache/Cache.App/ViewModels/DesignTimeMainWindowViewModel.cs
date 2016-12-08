@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Cache.WPF.ViewModels
 {
     public class DesignTimeMainWindowViewModel : IMainWindowViewModel
     {
-        public List<FileViewModel> Files => new List<FileViewModel>
+        public ObservableCollection<FileViewModel> Files => new ObservableCollection<FileViewModel>
         {
             new FileViewModel {Name = "ljkNSDVpun:ASOUnv;OZMSCiomSE:IUcm;mcSMNEPUVNPUDvniwegbvzdthjfyuikloNSRv", IsCached = true},
             new FileViewModel {Name = "name3", IsCached = false},
@@ -33,7 +34,7 @@ namespace Cache.WPF.ViewModels
             new FileViewModel {Name = "name4", IsCached = true}
         };
 
-        public List<LogMessageViewModel> LogMessages => new List<LogMessageViewModel>()
+        public ObservableCollection<LogMessageViewModel> LogMessages => new ObservableCollection<LogMessageViewModel>()
         {
             new LogMessageViewModel { LogTime = DateTime.Now.Subtract(TimeSpan.FromDays(-10)), Message = "Message1ytiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiouiSDVNliusneLIUnliuVNIUS;UOSDHvkjNSBYTBTCBPLNENBHefiub2USDv;uN:SIUFnIAEBfuib21i3b4i23b5j345n7ujn;ladbnvl;hBNSEn;iiiiiiiiiiiiiii"},
             new LogMessageViewModel { LogTime = DateTime.Now.Subtract(TimeSpan.FromDays(-7)), Message = "Message1 LEIUFGNPAOISMVPOIM'oui'@as;'r;;gp'i@@u'hs'pi@;@uv'hn"},
