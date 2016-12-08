@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Common;
@@ -46,15 +47,10 @@ namespace Server.Service
             {
                 return FileCurrentVersionStatus.Removed;
             }
-            using (StreamReader r = new StreamReader(downloadFilePath))
-            {
-                string fileContent = r.ReadToEnd();
-                if (fileContent.CalculateSha256Hash().ToLower().Equals(hashOfCachedFile.ToLower()))
-                {
-                    return FileCurrentVersionStatus.UpToDate;
-                }
-            }
-            return FileCurrentVersionStatus.Modified;
+
+            byte[] allBytes = File.ReadAllBytes(downloadFilePath);
+            return string.Equals(allBytes.CalculateSha256Hash(), hashOfCachedFile, StringComparison.OrdinalIgnoreCase)
+                ? FileCurrentVersionStatus.UpToDate : FileCurrentVersionStatus.Modified;
         }
 
         /// <summary>
@@ -63,14 +59,7 @@ namespace Server.Service
         public IEnumerable<DifferenceChunkDto> GetUpdatedChunks(string fileName, IEnumerable<CachedChunkDto> cahceChunks)
         {
             string downloadFilePath = Path.Combine(CommonConstants.ServerFilesLocation, $"{fileName}");
-            List<Chunk> chunks;
-
-            using (StreamReader r = new StreamReader(downloadFilePath))
-            {
-                string fileContent = r.ReadToEnd();
-                chunks = RabinKarpAlgorithm.Slice(fileContent).ToList();
-            }
-
+            List<Chunk> chunks = RabinKarpAlgorithm.Slice(File.ReadAllBytes(downloadFilePath));
             return ChunkDifferentiator.GetUpdatedChunks(chunks, cahceChunks.Select(CachedChunkDtoMapper.Map).ToList()).Select(DifferenceChunkDtoMapper.Map);
         }
     }

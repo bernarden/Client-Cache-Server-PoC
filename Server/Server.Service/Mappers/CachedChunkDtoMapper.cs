@@ -7,7 +7,7 @@ namespace Server.Service.Mappers
     {
         public static Chunk Map(CachedChunkDto cachedChunkDto)
         {
-            return new Chunk(cachedChunkDto.ChunkHash, string.Empty, cachedChunkDto.CachedFileChunkLocation);
+            return new Chunk(cachedChunkDto.ChunkHash, new byte[0], cachedChunkDto.CachedFileChunkLocation);
         }
     }
 }

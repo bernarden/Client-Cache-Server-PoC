@@ -46,16 +46,10 @@ namespace Common
                 }
             }
             if (lastIndex < fileContent.Length - 1)
-                chunks.Add(new Chunk(fileContent.SubArray(lastIndex, fileContent.Length - 1- lastIndex), chunks.Count));
+                chunks.Add(new Chunk(fileContent.SubArray(lastIndex, fileContent.Length - 1 - lastIndex), chunks.Count));
             return chunks;
         }
 
-        public static T[] SubArray<T>(this T[] data, int index, int length)
-        {
-            T[] result = new T[length];
-            Array.Copy(data, index, result, 0, length);
-            return result;
-        }
     }
 
 }
