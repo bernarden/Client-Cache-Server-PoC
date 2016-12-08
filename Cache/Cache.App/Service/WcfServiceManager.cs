@@ -23,8 +23,25 @@ namespace Cache.WPF.Service
                 {
                     _selfHost = InitializeService();
                 }
-                _selfHost.AddServiceEndpoint(typeof(ICacheService), new WSHttpBinding(), "");
-                _selfHost.Description.Behaviors.Add(new ServiceMetadataBehavior { HttpGetEnabled = true });
+                var wsHttpBinding = new WSHttpBinding
+                {
+                    MaxBufferPoolSize = 2147483647,
+                    MaxReceivedMessageSize = 2147483647
+                };
+
+
+#if DEBUG
+                wsHttpBinding.ReceiveTimeout = new TimeSpan(0, 10, 0);
+                wsHttpBinding.SendTimeout = new TimeSpan(0, 10, 0);
+                wsHttpBinding.OpenTimeout = new TimeSpan(0, 10, 0);
+                wsHttpBinding.CloseTimeout = new TimeSpan(0, 10, 0);
+
+                _selfHost.Description.Behaviors.Add(new ServiceMetadataBehavior { HttpGetEnabled = true, HttpsGetEnabled = true });
+                _selfHost.Description.Behaviors.RemoveAll<ServiceDebugBehavior>();
+                _selfHost.Description.Behaviors.Add(new ServiceDebugBehavior { IncludeExceptionDetailInFaults = true });
+#endif
+                
+                _selfHost.AddServiceEndpoint(typeof(ICacheService), wsHttpBinding, "");
                 _selfHost.Open();
             }
             catch (CommunicationException)
@@ -36,11 +53,7 @@ namespace Cache.WPF.Service
 
         private static ServiceHost InitializeService()
         {
-
             var baseAddress = new Uri("http://localhost:808/CacheService");
- 
-
-
             return new ServiceHost(typeof(BasicCacheService), baseAddress);
         }
 

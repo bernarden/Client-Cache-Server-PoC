@@ -1,10 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Client.CacheService;
 using Client.Service;
+using Common;
 
 namespace Client.ViewModels
 {
@@ -20,7 +22,7 @@ namespace Client.ViewModels
             _fileManager = fileManager;
             _cacheService = cacheService;
 
-            //  Files = _cacheService.GetFileNames().Select(x => new FileViewModel { Name = x, IsCached = false }).ToList();
+            Files = new ObservableCollection<FileViewModel>(_cacheService.GetFileNames().Select(x => new FileViewModel { Name = x, IsCached = false }));
         }
 
         public bool OperationInProgress
@@ -33,22 +35,7 @@ namespace Client.ViewModels
             }
         }
 
-
-        //public List<FileViewModel> Files { get; private set; }
-
-        public List<FileViewModel> Files
-        {
-            get
-            {
-                return new List<FileViewModel>
-                {
-                    new FileViewModel {Name = "name3", IsCached = false},
-                    new FileViewModel {Name = ";kousadhfvpiNSLPIUfpl", IsCached = true},
-                };
-            }
-            set { }
-        }
-
+        public ObservableCollection<FileViewModel> Files { get; private set; }
 
         public string DownloadOpenFileButtonText
         {
@@ -73,20 +60,41 @@ namespace Client.ViewModels
 
         public async void DownloadOpenFile()
         {
+            OperationInProgress = true;
+            if (SelectedFile != null)
+            {
+                var stream = await _cacheService.DownloadFileAsync(SelectedFile.Name);
+                SaveToNewFile(stream, SelectedFile.Name);
+            }
+
+            OperationInProgress = false;
             // Downloading file 
             // => IsClearDownloadsButtonEnabled = true 
         }
+
+        private void SaveToNewFile(Stream downloadedFile, string fileName)
+        {
+            if (!Directory.Exists(CommonConstants.ClientFilesLocation))
+                Directory.CreateDirectory(CommonConstants.ClientFilesLocation);
+
+            string pathToNewFile = Path.Combine(CommonConstants.ClientFilesLocation, fileName);
+            using (var file = File.Create(pathToNewFile))
+            {
+                downloadedFile.CopyTo(file);
+            }
+        }
+
+
 
         public void RefreshList()
         {
             OperationInProgress = true;
 
             var fileNames = _cacheService.GetFileNames();
-            var newFiles = new List<FileViewModel>();
+            var newFiles = new ObservableCollection<FileViewModel>();
             foreach (var fileName in fileNames)
             {
-                var fileViewModel =
-                    Files.FirstOrDefault(x => string.Equals(x.Name, fileName, StringComparison.OrdinalIgnoreCase));
+                var fileViewModel = Files.FirstOrDefault(x => string.Equals(x.Name, fileName, StringComparison.OrdinalIgnoreCase));
                 newFiles.Add(fileViewModel ?? new FileViewModel { Name = fileName, IsCached = false });
             }
             Files = newFiles;
@@ -99,7 +107,13 @@ namespace Client.ViewModels
             OperationInProgress = true;
 
             _fileManager.CLearCache();
-            Files.ForEach(x => x.IsCached = false);
+            foreach (var file in Files)
+            {
+                file.IsCached = false;
+            }
+
+            OperationInProgress = false;
+
         }
 
 

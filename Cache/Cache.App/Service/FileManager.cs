@@ -10,8 +10,15 @@ namespace Cache.WPF.Service
     {
         public void CLearCache()
         {
-            var allFiles = Directory.GetFiles(CommonConstants.CacheFilesLocation, "*.*", SearchOption.AllDirectories);
-            Parallel.ForEach(allFiles, DeleteFileWithFullPath);
+            if (!Directory.Exists(CommonConstants.CacheFilesLocation))
+            {
+                Directory.CreateDirectory(CommonConstants.CacheFilesLocation);
+            }
+            else
+            {
+                var allFiles = Directory.GetFiles(CommonConstants.CacheFilesLocation, "*.*", SearchOption.AllDirectories);
+                Parallel.ForEach(allFiles, DeleteFileWithFullPath);
+            }
         }
 
         private void DeleteFileWithFullPath(string filePath)

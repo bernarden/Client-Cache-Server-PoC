@@ -63,6 +63,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Helpers\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Helpers\InverseBooleanConverter.cs" />
     <Compile Include="Helpers\IocKernel.cs" />
     <Compile Include="Helpers\ViewModelLocator.cs" />
     <Compile Include="Helpers\IocConfiguration.cs" />
@@ -153,6 +154,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\tick.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Common.csproj">
+      <Project>{1FD7AD3D-FEDC-4E0C-94D5-3F16C2C213B2}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
