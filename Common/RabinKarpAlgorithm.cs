@@ -46,7 +46,7 @@ namespace Common
                 }
             }
             if (lastIndex < fileContent.Length - 1)
-                chunks.Add(new Chunk(fileContent.SubArray(lastIndex, fileContent.Length - 1 - lastIndex), chunks.Count));
+                chunks.Add(new Chunk(fileContent.SubArray(lastIndex, fileContent.Length - lastIndex), chunks.Count));
             return chunks;
         }
 

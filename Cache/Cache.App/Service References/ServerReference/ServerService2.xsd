@@ -49,7 +49,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="fileName" nillable="true" type="xs:string" />
-        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Server.Service.Dtos" minOccurs="0" name="cahceChunks" nillable="true" type="q4:ArrayOfCachedChunkDto" />
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Server.Service.Dtos" minOccurs="0" name="cacheChunks" nillable="true" type="q4:ArrayOfCachedChunkDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

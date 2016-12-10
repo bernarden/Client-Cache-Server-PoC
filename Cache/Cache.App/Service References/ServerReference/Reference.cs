@@ -188,10 +188,10 @@ namespace Cache.WPF.ServerReference {
         System.Threading.Tasks.Task<Cache.WPF.ServerReference.FileCurrentVersionStatus> IsCurrentVersionOfFileAsync(string fileName, string hashOfCachedFile);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServerService/GetUpdatedChunks", ReplyAction="http://tempuri.org/IServerService/GetUpdatedChunksResponse")]
-        Cache.WPF.ServerReference.DifferenceChunkDto[] GetUpdatedChunks(string fileName, Cache.WPF.ServerReference.CachedChunkDto[] cahceChunks);
+        Cache.WPF.ServerReference.DifferenceChunkDto[] GetUpdatedChunks(string fileName, Cache.WPF.ServerReference.CachedChunkDto[] cacheChunks);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServerService/GetUpdatedChunks", ReplyAction="http://tempuri.org/IServerService/GetUpdatedChunksResponse")]
-        System.Threading.Tasks.Task<Cache.WPF.ServerReference.DifferenceChunkDto[]> GetUpdatedChunksAsync(string fileName, Cache.WPF.ServerReference.CachedChunkDto[] cahceChunks);
+        System.Threading.Tasks.Task<Cache.WPF.ServerReference.DifferenceChunkDto[]> GetUpdatedChunksAsync(string fileName, Cache.WPF.ServerReference.CachedChunkDto[] cacheChunks);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -245,12 +245,12 @@ namespace Cache.WPF.ServerReference {
             return base.Channel.IsCurrentVersionOfFileAsync(fileName, hashOfCachedFile);
         }
         
-        public Cache.WPF.ServerReference.DifferenceChunkDto[] GetUpdatedChunks(string fileName, Cache.WPF.ServerReference.CachedChunkDto[] cahceChunks) {
-            return base.Channel.GetUpdatedChunks(fileName, cahceChunks);
+        public Cache.WPF.ServerReference.DifferenceChunkDto[] GetUpdatedChunks(string fileName, Cache.WPF.ServerReference.CachedChunkDto[] cacheChunks) {
+            return base.Channel.GetUpdatedChunks(fileName, cacheChunks);
         }
         
-        public System.Threading.Tasks.Task<Cache.WPF.ServerReference.DifferenceChunkDto[]> GetUpdatedChunksAsync(string fileName, Cache.WPF.ServerReference.CachedChunkDto[] cahceChunks) {
-            return base.Channel.GetUpdatedChunksAsync(fileName, cahceChunks);
+        public System.Threading.Tasks.Task<Cache.WPF.ServerReference.DifferenceChunkDto[]> GetUpdatedChunksAsync(string fileName, Cache.WPF.ServerReference.CachedChunkDto[] cacheChunks) {
+            return base.Channel.GetUpdatedChunksAsync(fileName, cacheChunks);
         }
     }
 }

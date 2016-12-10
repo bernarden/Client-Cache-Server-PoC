@@ -13,9 +13,11 @@ namespace Server.Core
             foreach (Chunk currentChunk in chunksFromCurrentFile)
             {
                 Chunk cachedChunk = chunksFromCachedFile.FirstOrDefault(x => x.ChunkHash.Equals(currentChunk.ChunkHash));
-                var differenceChunk = cachedChunk != null ?
-                    new DifferenceChunk(new byte[0], currentChunk.FileChunkNumber, cachedChunk.FileChunkNumber) :
-                    new DifferenceChunk(currentChunk.ChunkInformation, currentChunk.FileChunkNumber, -1);
+                DifferenceChunk differenceChunk;
+                if (cachedChunk == null)
+                    differenceChunk = new DifferenceChunk(currentChunk.ChunkInformation, currentChunk.FileChunkNumber, -1);
+                else
+                    differenceChunk = new DifferenceChunk(new byte[0], currentChunk.FileChunkNumber, cachedChunk.FileChunkNumber);
                 differenceChunks.Add(differenceChunk);
             }
 

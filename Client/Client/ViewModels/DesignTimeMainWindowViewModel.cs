@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
 namespace Client.ViewModels
 {
@@ -7,30 +6,17 @@ namespace Client.ViewModels
     {
         public ObservableCollection<FileViewModel> Files => new ObservableCollection<FileViewModel>
         {
-            new FileViewModel{Name = "ljkNSDVpun:ASOUnv;OZMSCiomSE:IUcm;mcSMNEPUVNPUDvniwegbvzdthjfyuikloNSRv",IsCached = true},
-            new FileViewModel {Name = "name3", IsCached = false},
-            new FileViewModel {Name = "name3nsdgiuarselignvASDv", IsCached = false},
-            new FileViewModel {Name = ";kousadhfvpiNSLPIUfpl", IsCached = true},
-            new FileViewModel {Name = ";kousadhfvpiNSLPIUfpl", IsCached = true},
-            new FileViewModel {Name = ";klushfBNUKYBCYECYRSGHYFYSBLUVNBABCNSUEBFbYBLUSNEyvbSBCSIRUgn", IsCached = true},
-            new FileViewModel {Name = ";kousadhfvpiNSLPIUfpl", IsCached = true},
-            new FileViewModel {Name = ";kousadhfvpiNSLPIUfpl", IsCached = true},
-            new FileViewModel {Name = ";kousadhfvpiNSLPIUfpl", IsCached = true},
-            new FileViewModel {Name = ";kousadhfvpiNSLPIUfpl", IsCached = true},
-            new FileViewModel {Name = ";kousadhfvpiNSLPIUfpl", IsCached = true},
-            new FileViewModel {Name = ";kousadhfvpiNSLPIUfpl", IsCached = true},
-            new FileViewModel {Name = "фжущшмьзщшЬЫВсзщшьЯВСдгтавмним", IsCached = true},
-            new FileViewModel {Name = ";kousadhfvpiNSLPIUfpl", IsCached = true},
-            new FileViewModel {Name = ";;SEKJnfgpSNDV", IsCached = false},
-            new FileViewModel {Name = ";kousadhfvpiNSLPIUfpl", IsCached = true},
-            new FileViewModel {Name = ";kousadhfvpiNSLPIUfpl", IsCached = true},
-            new FileViewModel {Name = ";;o';u;we;a;v;'h[omnoiMSZDcv", IsCached = false},
-            new FileViewModel {Name = ";kousadhfvpiNSLPIUfpl", IsCached = true},
-            new FileViewModel {Name = ";kousadhfvpiNSLPIUfpl", IsCached = true},
-            new FileViewModel {Name = ";kousadhfvpiNSLPIUfpl", IsCached = true},
-            new FileViewModel {Name = ";kousadhfvpiNSLPIUfpl", IsCached = true},
-            new FileViewModel {Name = ";kousadhfvpiNSLPIUfpl", IsCached = true},
-            new FileViewModel {Name = "name4", IsCached = true}
+            new FileViewModel {Name = "ljkNSDVpun:ASbvzdthjfyuikloNSRv", FileStatusType = FileStatusType.Downloaded},
+            new FileViewModel {Name = "name3", FileStatusType = FileStatusType.NotDownloaded},
+            new FileViewModel {Name = "o;uhseloifuhaslirefj", FileStatusType = FileStatusType.Downloading},
+            new FileViewModel {Name = ".kuahskugaseufheeg", FileStatusType = FileStatusType.NotDownloaded},
+            new FileViewModel {Name = "kousadhfvpiNSLPIUfpl", FileStatusType = FileStatusType.Downloaded},
+            new FileViewModel {Name = ";o;iahewiunw;oef", FileStatusType = FileStatusType.Downloading},
+            new FileViewModel {Name = "aw;iouedhvoiauwjefihsdg", FileStatusType = FileStatusType.NotDownloaded},
+            new FileViewModel {Name = "liaysdhblviujaweorg", FileStatusType = FileStatusType.NotDownloaded},
+            new FileViewModel {Name = "'EWRIOJVPAOSHEVFOI;AJS;FO", FileStatusType = FileStatusType.Downloading},
+            new FileViewModel {Name = "kousadhfvp;oiauehr", FileStatusType = FileStatusType.Downloaded},
+            new FileViewModel {Name = "liUSJEFIUAJNSELKUIYFRH", FileStatusType = FileStatusType.NotDownloaded}
         };
 
         public string DownloadOpenFileButtonText => "Download File";
