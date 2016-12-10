@@ -8,5 +8,6 @@
         <helpers:ViewModelLocator x:Key="ViewModelLocator"/>
         <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <helpers:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+        <helpers:StatusTypeConverterToTextConverter x:Key="StatusTypeConverterToTextConverter"/>
     </Application.Resources>
 </Application>

@@ -63,8 +63,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Helpers\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\InverseBooleanConverter.cs" />
     <Compile Include="Helpers\IocKernel.cs" />
+    <Compile Include="Helpers\StatusTypeConverterToTextConverter.cs" />
     <Compile Include="Helpers\ViewModelLocator.cs" />
     <Compile Include="Helpers\IocConfiguration.cs" />
     <Compile Include="Service References\CacheService\Reference.cs">
@@ -80,6 +82,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ViewModels\FileStatusType.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Service\FileManager.cs" />
     <Compile Include="ViewModels\FileViewModel.cs" />
@@ -129,7 +132,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

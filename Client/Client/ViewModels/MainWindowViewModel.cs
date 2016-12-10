@@ -12,17 +12,15 @@ namespace Client.ViewModels
 {
     public class MainWindowViewModel : IMainWindowViewModel, INotifyPropertyChanged
     {
-        private readonly ICacheService _cacheService;
         private readonly FileManager _fileManager;
         private bool _operationInProgress;
         private FileViewModel _selectedFile;
+        private ObservableCollection<FileViewModel> _files;
 
-        public MainWindowViewModel(FileManager fileManager, ICacheService cacheService)
+        public MainWindowViewModel(FileManager fileManager)
         {
             _fileManager = fileManager;
-            _cacheService = cacheService;
-
-            Files = new ObservableCollection<FileViewModel>(_cacheService.GetFileNames().Select(x => new FileViewModel { Name = x, IsCached = false }));
+            RefreshList();
         }
 
         public bool OperationInProgress
@@ -35,13 +33,22 @@ namespace Client.ViewModels
             }
         }
 
-        public ObservableCollection<FileViewModel> Files { get; private set; }
+        public ObservableCollection<FileViewModel> Files
+        {
+            get { return _files; }
+            private set
+            {
+                _files = value;
+                NotifyPropertyChanged(nameof(Files));
+
+            }
+        }
 
         public string DownloadOpenFileButtonText
         {
             get
             {
-                if ((SelectedFile == null) || !SelectedFile.IsCached)
+                if ((SelectedFile == null) || !SelectedFile.IsFileCached())
                     return "Download File";
                 return "Open File";
             }
@@ -53,7 +60,6 @@ namespace Client.ViewModels
             set
             {
                 _selectedFile = value;
-                // ReSharper disable once ExplicitCallerInfoArgument
                 NotifyPropertyChanged(nameof(DownloadOpenFileButtonText));
                 NotifyPropertyChanged(nameof(SelectedFile));
             }
@@ -64,44 +70,61 @@ namespace Client.ViewModels
             OperationInProgress = true;
             if (SelectedFile != null)
             {
-                var stream = await _cacheService.DownloadFileAsync(SelectedFile.Name);
-                SaveToNewFile(stream, SelectedFile.Name);
+                var file = Files.FirstOrDefault(x => x.Name.Equals(SelectedFile.Name));
+                if (file != null)
+                {
+
+                    if (!file.IsFileCached())
+                    {
+                        try
+                        {
+                            file.FileStatusType = FileStatusType.Downloading;
+                            var stream = await new CacheServiceClient().DownloadFileAsync(file.Name);
+                            _fileManager.SaveToNewFile(stream, file.Name);
+                            file.FileStatusType = FileStatusType.Downloaded;
+                        }
+                        catch (Exception)
+                        {
+                            // Show error message
+                            file.FileStatusType = FileStatusType.NotDownloaded;
+                        }
+                        NotifyPropertyChanged(nameof(DownloadOpenFileButtonText));
+                    }
+                    else
+                    {
+                        // Open file with default program
+                        var pathToFile = Path.Combine(CommonConstants.ClientFilesLocation, file.Name);
+                        System.Diagnostics.Process.Start(pathToFile);
+                    }
+                }
             }
 
             OperationInProgress = false;
-            // Downloading file 
-            // => IsClearDownloadsButtonEnabled = true 
         }
 
-        private void SaveToNewFile(Stream downloadedFile, string fileName)
-        {
-            if (!Directory.Exists(CommonConstants.ClientFilesLocation))
-                Directory.CreateDirectory(CommonConstants.ClientFilesLocation);
-
-            string pathToNewFile = Path.Combine(CommonConstants.ClientFilesLocation, fileName);
-            using (var file = File.Create(pathToNewFile))
-            {
-                downloadedFile.CopyTo(file);
-            }
-        }
-
-
-
-        public void RefreshList()
+        public async void RefreshList()
         {
             OperationInProgress = true;
 
-            var fileNames = _cacheService.GetFileNames();
-            var newFiles = new ObservableCollection<FileViewModel>();
-            foreach (var fileName in fileNames)
+            try
             {
-                var fileViewModel = Files.FirstOrDefault(x => string.Equals(x.Name, fileName, StringComparison.OrdinalIgnoreCase));
-                newFiles.Add(fileViewModel ?? new FileViewModel { Name = fileName, IsCached = false });
+                var fileNames = await new CacheServiceClient().GetFileNamesAsync();
+                var newFiles = new ObservableCollection<FileViewModel>();
+                foreach (var fileName in fileNames)
+                {
+                    var fileViewModel = Files?.FirstOrDefault(x => string.Equals(x.Name, fileName, StringComparison.OrdinalIgnoreCase));
+                    newFiles.Add(fileViewModel ?? new FileViewModel { Name = fileName, FileStatusType = FileStatusType.NotDownloaded });
+                }
+                Files = newFiles;
             }
-            Files = newFiles;
+            catch (Exception)
+            {
+                // Show error message
+            }
 
             OperationInProgress = false;
         }
+
 
         public void ClearDownloads()
         {
@@ -110,16 +133,14 @@ namespace Client.ViewModels
             _fileManager.CLearCache();
             foreach (var file in Files)
             {
-                file.IsCached = false;
+                file.FileStatusType = FileStatusType.NotDownloaded;
             }
 
+            NotifyPropertyChanged(nameof(DownloadOpenFileButtonText));
             OperationInProgress = false;
-
         }
 
-
         public event PropertyChangedEventHandler PropertyChanged;
-
         protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

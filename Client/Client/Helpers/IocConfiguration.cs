@@ -1,7 +1,5 @@
-﻿using Client.CacheService;
-using Client.Service;
+﻿using Client.Service;
 using Client.ViewModels;
-using Ninject.Activation.Caching;
 using Ninject.Modules;
 
 namespace Client.Helpers
@@ -10,7 +8,6 @@ namespace Client.Helpers
     {
         public override void Load()
         {
-            Bind<ICacheService>().To<CacheServiceClient>().InSingletonScope();
             Bind<FileManager>().To<FileManager>().InSingletonScope();
             Bind<MainWindowViewModel>().ToSelf().InSingletonScope();
         }

@@ -21,8 +21,6 @@ namespace Cache.WPF.Service
         public BasicCacheService()
         {
             _fileClient = IocKernel.Get<ServerFileClient>();
-            MainWindowViewModel mainWindowViewModel = IocKernel.Get<MainWindowViewModel>();
-            CustomEvent += mainWindowViewModel.UpdateListOfFiles;
         }
 
         /// <summary>
@@ -33,20 +31,6 @@ namespace Cache.WPF.Service
             return await _fileClient.GetFileNames();
         }
         
-
-        public delegate void MessageEventHandler(List<string> newFiles);
-        public event MessageEventHandler UpdateUiWithNewFiles;
-        void SendMessage(List<string> newFiles)
-        {
-            UpdateUiWithNewFiles?.Invoke(new List<string>());
-        }
-        
-        public event EventHandler<List<string>> CustomEvent;
-        public void SendData(int value)
-        {
-            CustomEvent?.Invoke(null, new List<string>());
-        }
-
         /// <summary>
         /// Downloads the file.
         /// </summary>

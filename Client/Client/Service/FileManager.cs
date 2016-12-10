@@ -20,6 +20,18 @@ namespace Client.Service
                 Parallel.ForEach(allFiles, DeleteFileWithFullPath);
             }
         }
+        
+        public void SaveToNewFile(Stream downloadedFile, string fileName)
+        {
+            if (!Directory.Exists(CommonConstants.ClientFilesLocation))
+                Directory.CreateDirectory(CommonConstants.ClientFilesLocation);
+
+            string pathToNewFile = Path.Combine(CommonConstants.ClientFilesLocation, fileName);
+            using (var file = File.Create(pathToNewFile))
+            {
+                downloadedFile.CopyTo(file);
+            }
+        }
 
         private void DeleteFileWithFullPath(string filePath)
         {
@@ -32,6 +44,7 @@ namespace Client.Service
             }
             file.Delete();
         }
+
         private bool IsFileLocked(FileInfo file)
         {
             FileStream stream = null;

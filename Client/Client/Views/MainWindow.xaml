@@ -13,7 +13,7 @@
         <!-- Files -->
         <DataTemplate x:Key="FileTemplate" DataType="viewModels:FileViewModel">
             <DockPanel MinWidth="25">
-                <Image Height="25" Width="25" DockPanel.Dock="Right" Source="../Resources/tick.png" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding IsCached, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <TextBlock DockPanel.Dock="Right" HorizontalAlignment="Right" Foreground="Green" VerticalAlignment="Center" Text="{Binding FileStatusType, Mode=OneWay, Converter={StaticResource StatusTypeConverterToTextConverter}}" />
                 <TextBlock Margin="0,0,5,0" DockPanel.Dock="Left" Foreground="Gray" Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap"/>
             </DockPanel>
         </DataTemplate>
@@ -139,8 +139,8 @@
                       SelectedItem="{Binding SelectedFile, Mode=TwoWay}"/>
         </ScrollViewer>
 
-        <Button Grid.Column="0" Grid.Row="2" Content="Clear downloads" Style="{StaticResource ClearDownloadsButtonStyle}" Click="ClearDownloadsButton_OnClick" IsEnabled="{Binding OperationInProgress, Converter={StaticResource InverseBooleanConverter}}"/>
-        <Button Grid.Column="1" Grid.Row="2" Content="Refresh list" Style="{StaticResource RefreshListButtonStyle}" Click="RefreshListButton_OnClick" IsEnabled="{Binding OperationInProgress, Converter={StaticResource InverseBooleanConverter}}"/>
+        <Button Grid.Column="0" Grid.Row="2" Content="Clear Downloads" Style="{StaticResource ClearDownloadsButtonStyle}" Click="ClearDownloadsButton_OnClick" IsEnabled="{Binding OperationInProgress, Converter={StaticResource InverseBooleanConverter}}"/>
+        <Button Grid.Column="1" Grid.Row="2" Content="Refresh List" Style="{StaticResource RefreshListButtonStyle}" Click="RefreshListButton_OnClick" IsEnabled="{Binding OperationInProgress, Converter={StaticResource InverseBooleanConverter}}"/>
         <Button Grid.Column="2" Grid.Row="2" Content="{Binding DownloadOpenFileButtonText}" Style="{StaticResource DownloadOpenFileButtonStyle}" Click="DownloadOpenFileButton_OnClick" IsEnabled="{Binding OperationInProgress, Converter={StaticResource InverseBooleanConverter}}"/>
     </Grid>
 </Window>

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Cache.WPF.Annotations;
@@ -17,6 +16,7 @@ namespace Cache.WPF.ViewModels
         {
             _fileManager = fileManager;
             Files = new ObservableCollection<FileViewModel>();
+            LogMessages = new ObservableCollection<LogMessageViewModel>();
         }
 
         public ObservableCollection<FileViewModel> Files
@@ -47,11 +47,6 @@ namespace Cache.WPF.ViewModels
             {
                 file.IsCached = false;
             }
-        }
-
-        public void UpdateListOfFiles(object sender, List<string> e)
-        {
-            throw new System.NotImplementedException();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

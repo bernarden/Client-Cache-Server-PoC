@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -71,11 +72,13 @@ namespace Cache.WPF.Service
         /// </summary>
         public async Task<Stream> DownloadFile(string fileName)
         {
+            Log($"{fileName} is requested by the client.");
             string cachedFileLocation = Path.Combine(CommonConstants.CacheFilesLocation, $"{fileName}");
             bool fileWasCached = CommonFunctionality.DoesFileExist(cachedFileLocation);
 
             if (fileWasCached)
             {
+                Log($"{fileName} was previously cached.");
                 byte[] allCachedBytes = System.IO.File.ReadAllBytes(cachedFileLocation);
                 FileCurrentVersionStatus fileCurrentVersionStatus;
                 using (ServerServiceClient serverServiceClient = new ServerServiceClient())
@@ -84,6 +87,7 @@ namespace Cache.WPF.Service
 
                     if (fileCurrentVersionStatus == FileCurrentVersionStatus.Modified)
                     {
+                        Log($"{fileName} has been modified on the main server.");
                         Stream downloadFile = await UpdateCachedFile(fileName, allCachedBytes, serverServiceClient, cachedFileLocation);
                         MarkFileAsCached(fileName);
                         return downloadFile;
@@ -102,6 +106,7 @@ namespace Cache.WPF.Service
             // File hasn't been cached before.
             using (ServerServiceClient serverServiceClient = new ServerServiceClient())
             {
+                Log($"{fileName} hasn't been cached before. Downloading it from the main server for the first time.");
                 Stream downloadedFile = await serverServiceClient.DownloadFileAsync(fileName);
                 byte[] fileContent = CommonFunctionality.ReadFully(downloadedFile);
                 SaveToNewFile(fileContent, cachedFileLocation);
@@ -110,36 +115,45 @@ namespace Cache.WPF.Service
             }
         }
 
-        private async Task<Stream> UpdateCachedFile(string fileName, byte[] fileContent, ServerServiceClient serverServiceClient, string cachedFileLocation)
+        private async Task<Stream> UpdateCachedFile(string fileName, byte[] cachedFileContent, ServerServiceClient serverServiceClient, string cachedFileLocation)
         {
-            List<Chunk> chunks = RabinKarpAlgorithm.Slice(fileContent);
-            DifferenceChunkDto[] differenceChunkDtos = await serverServiceClient.GetUpdatedChunksAsync(fileName, chunks.Select(CachedChunkDtoMapper.Map).ToArray());
-            byte[] newFileContent = ConstructContentOfTheUpdateFile(differenceChunkDtos, chunks);
+            List<Chunk> cachedChunks = RabinKarpAlgorithm.Slice(cachedFileContent);
+            DifferenceChunkDto[] differenceChunkDtos = await serverServiceClient.GetUpdatedChunksAsync(fileName, cachedChunks.Select(CachedChunkDtoMapper.Map).ToArray());
+            byte[] newFileContent = ConstructContentOfTheUpdateFile(differenceChunkDtos, cachedChunks, fileName);
             System.IO.File.WriteAllBytes(cachedFileLocation, newFileContent);
             return new MemoryStream(newFileContent);
         }
 
-        private static byte[] ConstructContentOfTheUpdateFile(DifferenceChunkDto[] differenceChunkDtos, List<Chunk> chunks)
+        private byte[] ConstructContentOfTheUpdateFile(DifferenceChunkDto[] differenceChunkDtos, List<Chunk> cachedChunks, string fileName)
         {
-            List<byte> newFileContent = new List<byte>();
+            long numberOfCachedBytesUsedDuringReconstruction = 0;
+            List<byte[]> newFileContent = new List<byte[]>();
             foreach (DifferenceChunkDto chunkDto in differenceChunkDtos.OrderBy(x => x.CurentFileChunkNumber))
             {
-                if (chunkDto.ChunkInformation != null && chunkDto.ChunkInformation.Length != 0 && chunkDto.CachedFileChunkNumber > 0)
+                if (chunkDto.ChunkInformation != null && chunkDto.ChunkInformation.Length != 0 && chunkDto.CachedFileChunkNumber < 0)
                 {
-                    newFileContent.AddRange(chunkDto.ChunkInformation);
+                    newFileContent.Add(chunkDto.ChunkInformation);
                 }
                 else
                 {
-                    newFileContent.AddRange(chunks.First(x => x.FileChunkNumber == chunkDto.CachedFileChunkNumber).ChunkInformation);
+                    Chunk chunk = cachedChunks.First(x => x.FileChunkNumber == chunkDto.CachedFileChunkNumber);
+                    numberOfCachedBytesUsedDuringReconstruction += chunk.ChunkInformation.Length;
+                    newFileContent.Add(chunk.ChunkInformation);
                 }
             }
-            return newFileContent.ToArray();
+
+            byte[] enumerable = newFileContent.SelectMany(x => x).ToArray();
+            Log($"{fileName} was reconstructed with {numberOfCachedBytesUsedDuringReconstruction * 100L / enumerable.Length * 1L}% cached data.");
+
+            return enumerable;
         }
 
         private static void MarkFileAsCached(string fileName)
         {
             MainWindowViewModel mainWindowViewModel = IocKernel.Get<MainWindowViewModel>();
-            mainWindowViewModel.Files.First(x => x.Name.Equals(fileName)).IsCached = true;
+            FileViewModel file = mainWindowViewModel.Files.FirstOrDefault(x => x.Name.Equals(fileName));
+            if (file != null)
+                file.IsCached = true;
         }
 
         private void SaveToNewFile(byte[] fileContent, string filePath)
@@ -148,6 +162,12 @@ namespace Cache.WPF.Service
                 Directory.CreateDirectory(CommonConstants.CacheFilesLocation);
 
             System.IO.File.WriteAllBytes(filePath, fileContent);
+        }
+
+        private void Log(string logMessage)
+        {
+            MainWindowViewModel mainWindowViewModel = IocKernel.Get<MainWindowViewModel>();
+            mainWindowViewModel.LogMessages.Add(new LogMessageViewModel { LogTime = DateTime.Now, Message = logMessage });
         }
     }
 }

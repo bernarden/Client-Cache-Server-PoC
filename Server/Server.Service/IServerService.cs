@@ -33,6 +33,6 @@ namespace Server.Service
         /// Gets the updated chunks.
         /// </summary>
         [OperationContract]
-        IEnumerable<DifferenceChunkDto> GetUpdatedChunks(string fileName, IEnumerable<CachedChunkDto> cahceChunks);
+        IEnumerable<DifferenceChunkDto> GetUpdatedChunks(string fileName, IEnumerable<CachedChunkDto> cacheChunks);
     }
 }
